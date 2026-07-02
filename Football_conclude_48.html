@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIFA World Cup 2026 - ทั้งหมด 48 ประเทศ</title>
+    <!-- ดึง CSS ไลบรารีธงชาติระดับสากล (flag-icons) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"/>
+    
+    <style>
+        :root {
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-color: #0f172a;
+            --primary-color: #1e3a8a;
+            --accent-color: #db2777;
+            
+            /* ตัวแปรสีสำหรับการผ่านเข้ารอบ/ตกรอบ */
+            --qualified-color: #10b981; /* สีเขียว */
+            --eliminated-color: #94a3b8; /* สีเทา */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+            color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        header h1 { margin: 0 0 10px 0; font-size: 2.3rem; }
+        header p { margin: 0; opacity: 0.9; }
+
+        /* จัด Layout เป็น 2 คอลัมน์สำหรับหน้าจอใหญ่ */
+        .groups-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .group-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .group-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .team-row {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px; /* เพิ่มระยะขอบให้ดูเป็นสัดส่วน */
+            margin-bottom: 6px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .team-row:last-child {
+            margin-bottom: 0;
+        }
+
+        /* =========================================
+           ✨ กราฟิกสำหรับทีมที่ ผ่านเข้ารอบ (Qualified)
+        ========================================= */
+        .team-row.qualified {
+            border-left: 5px solid var(--qualified-color);
+            background: linear-gradient(to right, rgba(16, 185, 129, 0.08), transparent);
+        }
+        .team-row.qualified .team-name-th {
+            color: #047857; /* เปลี่ยนสีชื่อทีมไทยให้เข้มและเด่นขึ้น */
+        }
+
+        /* =========================================
+           💀 กราฟิกสำหรับทีมที่ ตกรอบ (Eliminated)
+        ========================================= */
+        .team-row.eliminated {
+            border-left: 5px solid var(--eliminated-color);
+            background-color: rgba(241, 245, 249, 0.5);
+            opacity: 0.55; /* ปรับภาพรวมให้จางลง */
+        }
+        .team-row.eliminated .flag-box {
+            filter: grayscale(85%); /* ทำให้ธงเป็นสีขาวดำ */
+            transition: filter 0.3s ease;
+        }
+        .team-row.eliminated:hover {
+            opacity: 1; /* เมื่อเอาเมาส์ชี้จะสว่างขึ้น */
+            background-color: #f8fafc;
+        }
+        .team-row.eliminated:hover .flag-box {
+            filter: grayscale(0%); /* ธงกลับมามีสีปกติ */
+        }
+
+        .flag-box {
+            font-size: 2.5rem;
+            line-height: 1;
+            margin-right: 15px;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));
+            border-radius: 3px;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .team-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .team-name-th {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #334155;
+            transition: color 0.3s ease;
+        }
+
+        .team-name-en {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>FIFA WORLD CUP 2026 GROUPS</h1>
+        <p>รอบแบ่งกลุ่ม จำนวน 12 กลุ่ม ๆ ละ 4 ทีม (รวม 48 ทีม)</p>
+        <p>Website designed by Chirachai</p>
+    </header>
+
+    <div class="groups-container">
+
+        <!-- GROUP A -->
+        <div class="group-card">
+            <div class="group-title">GROUP A</div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-mx"></span></div>
+                <div class="team-info"><span class="team-name-th">เม็กซิโก (เจ้าภาพ)</span><span class="team-name-en">Mexico</span></div>
+            </div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-za"></span></div>
+                <div class="team-info"><span class="team-name-th">แอฟริกาใต้</span><span class="team-name-en">South Africa</span></div>
+            </div>
+            <div class="team-row eliminated">
+                <div class="flag-box"><span class="fi fi-kr"></span></div>
+                <div class="team-info"><span class="team-name-th">เกาหลีใต้</span><span class="team-name-en">South Korea</span></div>
+            </div>
+            <div class="team-row eliminated">
+                <div class="flag-box"><span class="fi fi-cz"></span></div>
+                <div class="team-info"><span class="team-name-th">สาธารณรัฐเช็ก</span><span class="team-name-en">Czech Republic</span></div>
+            </div>
+        </div>
+
+        <!-- GROUP B -->
+        <div class="group-card">
+            <div class="group-title">GROUP B</div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-ch"></span></div>
+                <div class="team-info"><span class="team-name-th">สวิตเซอร์แลนด์</span><span class="team-name-en">Switzerland</span></div>
+            </div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-ca"></span></div>
+                <div class="team-info"><span class="team-name-th">แคนาดา (เจ้าภาพ)</span><span class="team-name-en">Canada</span></div>
+            </div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-ba"></span></div>
+                <div class="team-info"><span class="team-name-th">บอสเนียและเฮอร์เซโกวีนา</span><span class="team-name-en">Bosnia and Herzegovina</span></div>
+            </div>
+            <div class="team-row eliminated">
+                <div class="flag-box"><span class="fi fi-qa"></span></div>
+                <div class="team-info"><span class="team-name-th">กาตาร์</span><span class="team-name-en">Qatar</span></div>
+            </div>
+        </div>
+
+        <!-- GROUP C -->
+        <div class="group-card">
+            <div class="group-title">GROUP C</div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-br"></span></div>
+                <div class="team-info"><span class="team-name-th">บราซิล</span><span class="team-name-en">Brazil</span></div>
+            </div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-ma"></span></div>
+                <div class="team-info"><span class="team-name-th">โมร็อกโก</span><span class="team-name-en">Morocco</span></div>
+            </div>
+            <div class="team-row eliminated">
+                <div class="flag-box"><span class="fi fi-gb-sct"></span></div>
+                <div class="team-info"><span class="team-name-th">สกอตแลนด์</span><span class="team-name-en">Scotland</span></div>
+            </div>
+            <div class="team-row eliminated">
+                <div class="flag-box"><span class="fi fi-ht"></span></div>
+                <div class="team-info"><span class="team-name-th">เฮติ</span><span class="team-name-en">Haiti</span></div>
+            </div>
+        </div>
+
+        <!-- GROUP D -->
+        <div class="group-card">
+            <div class="group-title">GROUP D</div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-us"></span></div>
+                <div class="team-info"><span class="team-name-th">สหรัฐอเมริกา (เจ้าภาพ)</span><span class="team-name-en">USA</span></div>
+            </div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-au"></span></div>
+                <div class="team-info"><span class="team-name-th">ออสเตรเลีย</span><span class="team-name-en">Australia</span></div>
+            </div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-py"></span></div>
+                <div class="team-info"><span class="team-name-th">ปารากวัย</span><span class="team-name-en">Paraguay</span></div>
+            </div>
+            <div class="team-row eliminated">
+                <div class="flag-box"><span class="fi fi-tr"></span></div>
+                <div class="team-info"><span class="team-name-th">ตุรกี</span><span class="team-name-en">Türkiye</span></div>
+            </div>
+        </div>
+
+        <!-- GROUP E -->
+        <div class="group-card">
+            <div class="group-title">GROUP E</div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-de"></span></div>
+                <div class="team-info"><span class="team-name-th">เยอรมนี</span><span class="team-name-en">Germany</span></div>
+            </div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-ci"></span></div>
+                <div class="team-info"><span class="team-name-th">ไอวอรี่โคสต์</span><span class="team-name-en">Ivory Coast</span></div>
+            </div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-ec"></span></div>
+                <div class="team-info"><span class="team-name-th">เอกวาดอร์</span><span class="team-name-en">Ecuador</span></div>
+            </div>
+            <div class="team-row eliminated">
+                <div class="flag-box"><span class="fi fi-cw"></span></div>
+                <div class="team-info"><span class="team-name-th">คูราเซา</span><span class="team-name-en">Curaçao</span></div>
+            </div>
+        </div>
+
+        <!-- GROUP F -->
+        <div class="group-card">
+            <div class="group-title">GROUP F</div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-nl"></span></div>
+                <div class="team-info"><span class="team-name-th">เนเธอร์แลนด์</span><span class="team-name-en">Netherlands</span></div>
+            </div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-jp"></span></div>
+                <div class="team-info"><span class="team-name-th">ญี่ปุ่น</span><span class="team-name-en">Japan</span></div>
+            </div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-se"></span></div>
+                <div class="team-info"><span class="team-name-th">สวีเดน</span><span class="team-name-en">Sweden</span></div>
+            </div>
+            <div class="team-row eliminated">
+                <div class="flag-box"><span class="fi fi-tn"></span></div>
+                <div class="team-info"><span class="team-name-th">ตูนิเซีย</span><span class="team-name-en">Tunisia</span></div>
+            </div>
+        </div>
+
+        <!-- GROUP G -->
+        <div class="group-card">
+            <div class="group-title">GROUP G</div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-be"></span></div>
+                <div class="team-info"><span class="team-name-th">เบลเยียม</span><span class="team-name-en">Belgium</span></div>
+            </div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-eg"></span></div>
+                <div class="team-info"><span class="team-name-th">อียิปต์</span><span class="team-name-en">Egypt</span></div>
+            </div>
+            <div class="team-row eliminated">
+                <div class="flag-box"><span class="fi fi-ir"></span></div>
+                <div class="team-info"><span class="team-name-th">อิหร่าน</span><span class="team-name-en">Iran</span></div>
+            </div>
+            <div class="team-row eliminated">
+                <div class="flag-box"><span class="fi fi-nz"></span></div>
+                <div class="team-info"><span class="team-name-th">นิวซีแลนด์</span><span class="team-name-en">New Zealand</span></div>
+            </div>
+        </div>
+
+        <!-- GROUP H -->
+        <div class="group-card">
+            <div class="group-title">GROUP H</div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-es"></span></div>
+                <div class="team-info"><span class="team-name-th">สเปน</span><span class="team-name-en">Spain</span></div>
+            </div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-cv"></span></div>
+                <div class="team-info"><span class="team-name-th">เคปเวิร์ด</span><span class="team-name-en">Cape Verde</span></div>
+            </div>
+            <div class="team-row eliminated">
+                <div class="flag-box"><span class="fi fi-uy"></span></div>
+                <div class="team-info"><span class="team-name-th">อุรุกวัย</span><span class="team-name-en">Uruguay</span></div>
+            </div>
+            <div class="team-row eliminated">
+                <div class="flag-box"><span class="fi fi-sa"></span></div>
+                <div class="team-info"><span class="team-name-th">ซาอุดีอาระเบีย</span><span class="team-name-en">Saudi Arabia</span></div>
+            </div>
+        </div>
+
+        <!-- GROUP I -->
+        <div class="group-card">
+            <div class="group-title">GROUP I</div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-fr"></span></div>
+                <div class="team-info"><span class="team-name-th">ฝรั่งเศส</span><span class="team-name-en">France</span></div>
+            </div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-no"></span></div>
+                <div class="team-info"><span class="team-name-th">นอร์เวย์</span><span class="team-name-en">Norway</span></div>
+            </div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-sn"></span></div>
+                <div class="team-info"><span class="team-name-th">เซเนกัล</span><span class="team-name-en">Senegal</span></div>
+            </div>
+            <div class="team-row eliminated">
+                <div class="flag-box"><span class="fi fi-iq"></span></div>
+                <div class="team-info"><span class="team-name-th">อิรัก</span><span class="team-name-en">Iraq</span></div>
+            </div>
+        </div>
+
+        <!-- GROUP J -->
+        <div class="group-card">
+            <div class="group-title">GROUP J</div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-ar"></span></div>
+                <div class="team-info"><span class="team-name-th">อาร์เจนตินา</span><span class="team-name-en">Argentina</span></div>
+            </div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-at"></span></div>
+                <div class="team-info"><span class="team-name-th">ออสเตรีย</span><span class="team-name-en">Austria</span></div>
+            </div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-dz"></span></div>
+                <div class="team-info"><span class="team-name-th">แอลจีเรีย</span><span class="team-name-en">Algeria</span></div>
+            </div>
+            <div class="team-row eliminated">
+                <div class="flag-box"><span class="fi fi-jo"></span></div>
+                <div class="team-info"><span class="team-name-th">จอร์แดน</span><span class="team-name-en">Jordan</span></div>
+            </div>
+        </div>
+
+        <!-- GROUP K -->
+        <div class="group-card">
+            <div class="group-title">GROUP K</div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-co"></span></div>
+                <div class="team-info"><span class="team-name-th">โคลอมเบีย</span><span class="team-name-en">Colombia</span></div>
+            </div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-pt"></span></div>
+                <div class="team-info"><span class="team-name-th">โปรตุเกส</span><span class="team-name-en">Portugal</span></div>
+            </div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-cd"></span></div>
+                <div class="team-info"><span class="team-name-th" style="font-size : 13px;">สาธารณรัฐประชาธิปไตยคองโก</span><span class="team-name-en">Congo DR</span></div>
+            </div>
+            <div class="team-row eliminated">
+                <div class="flag-box"><span class="fi fi-uz"></span></div>
+                <div class="team-info"><span class="team-name-th">อุซเบกิสถาน</span><span class="team-name-en">Uzbekistan</span></div>
+            </div>
+        </div>
+
+        <!-- GROUP L -->
+        <div class="group-card">
+            <div class="group-title">GROUP L</div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-gb-eng"></span></div>
+                <div class="team-info"><span class="team-name-th">อังกฤษ</span><span class="team-name-en">England</span></div>
+            </div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-hr"></span></div>
+                <div class="team-info"><span class="team-name-th">โครเอเชีย</span><span class="team-name-en">Croatia</span></div>
+            </div>
+            <div class="team-row qualified">
+                <div class="flag-box"><span class="fi fi-gh"></span></div>
+                <div class="team-info"><span class="team-name-th">กานา</span><span class="team-name-en">Ghana</span></div>
+            </div>
+            <div class="team-row eliminated">
+                <div class="flag-box"><span class="fi fi-pa"></span></div>
+                <div class="team-info"><span class="team-name-th">ปานามา</span><span class="team-name-en">Panama</span></div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จับคู่ 32 ทีมสุดท้าย - World Cup 2026</title>
+    <!-- ดึง CSS ไลบรารีธงชาติ -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"/>
+    
+    <style>
+        :root {
+            --bg-dark: #0a0e17;
+            --card-bg: #151b29;
+            --text-main: #ffffff;
+            --text-muted: #8b95a5;
+            --accent-color: #ff004c; /* สีแดงสไตล์สปอร์ต */
+            --border-color: #2a3241;
+            --winner-color: #ffd700; /* สีทองสำหรับทีมชนะ */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        /* ตารางจัดวางการจับคู่ */
+        .match-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* การ์ดแต่ละแมตช์ */
+        .match-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .match-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 20px rgba(255, 0, 76, 0.15);
+        }
+
+        /* ส่วนของทีม */
+        .team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 35%;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .team-name {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: color 0.3s ease;
+        }
+
+        /* ปรับขนาดธงชาติ */
+        .fi {
+            font-size: 3rem;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+        }
+
+        /* =========================================
+           ✨ กราฟิกสำหรับทีมที่ ชนะ (Winner) 
+        ========================================= */
+        .team.winner .fi {
+            transform: scale(1.15); /* ขยายธงชาติให้ใหญ่ขึ้นเล็กน้อย */
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); /* เรืองแสงสีทอง */
+            border: 1px solid var(--winner-color);
+        }
+        .team.winner .team-name {
+            color: var(--winner-color); /* เปลี่ยนชื่อเป็นสีทอง */
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        /* =========================================
+           💀 กราฟิกสำหรับทีมที่ แพ้ (Loser) 
+        ========================================= */
+        .team.loser {
+            opacity: 0.4; /* ดรอปความสว่างลง */
+            filter: grayscale(80%); /* ปรับสีให้ดูเป็นขาวดำ 80% */
+        }
+        .team.loser:hover {
+            opacity: 0.8;
+            filter: grayscale(0%); /* เมื่อเอาเมาส์ชี้จะกลับมามีสี */
+        }
+
+        /* ป้าย VS ตรงกลาง / สกอร์ */
+        .vs-badge {
+            background-color: var(--bg-dark);
+            color: var(--accent-color);
+            font-weight: 900;
+            font-size: 1.2rem;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            min-width: 80px;
+            gap: 5px;
+        }
+
+        .match-number {
+            font-size: 1rem;
+            color: var(--text-main);
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>FIFA World Cup 2026</h1>
+        <p>Round of 32 </p>
+        <p style="color:blue";>(Website designed by Chirachai)</p>
+    </header>
+
+    <div class="match-grid">
+
+        <!-- คู่ที่ 1 -->
+        <div class="match-card"> 
+            <!-- ใส่ class "loser" สำหรับทีมแพ้ -->
+            <div class="team loser">
+                <span class="fi fi-za"></span>
+                <span class="team-name">South Africa</span> 
+            </div>
+            <div class="vs-badge"> <a href="https://youtu.be/mvq85jJax9A?si=OCfpDrkCcy1DKaI8" target="_blank" style="text-decoration: none;">
+                <span class="match-number">0 - 1</span>
+            </a></div>
+            <!-- ใส่ class "winner" สำหรับทีมชนะ -->
+            <div class="team winner">
+                <span class="fi fi-ca"></span>
+                <span class="team-name">Canada</span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 2 -->
+        <div class="match-card">
+            <div class="team winner">
+                <span class="fi fi-br"></span>
+                <span class="team-name">Brazil</span>
+            </div>
+            <div class="vs-badge"><a href="https://youtu.be/N4rUTE0aCDQ?si=w8lgjMT7QoTUQMAI" target="_blank" style="text-decoration: none;">
+                <span class="match-number">2 - 1</span>
+            </a></div>
+            <div class="team loser">
+                <span class="fi fi-jp"></span>
+                <span class="team-name">Japan</span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 3 -->
+        <div class="match-card">
+            <div class="team loser">
+                <span class="fi fi-de"></span>
+                <span class="team-name">Germany</span>
+            </div>
+            <div class="vs-badge"><a href="https://youtu.be/ZiFoGrv_dsE?si=tTN68HCPNPDEqPAk" target="_blank" style="text-decoration: none;">
+                <span class="match-number" style="font-size: 12px;">1(3) - 1(4)</span>
+            </a></div>
+            <div class="team winner">
+                <span class="fi fi-py"></span>
+                <span class="team-name">Paraguay</span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 4 -->
+        <div class="match-card">
+            <div class="team loser">
+                <span class="fi fi-nl"></span>
+                <span class="team-name">Netherlands</span>
+            </div>
+            <div class="vs-badge"><a href="https://www.youtube.com/watch?v=l1oSv8BlSOs" target="_blank" style="text-decoration: none;">
+                <span class="match-number" style="font-size: 12px;">1(2) - 1(3)</span>
+            </a></div>
+            <div class="team winner">
+                <span class="fi fi-ma"></span>
+                <span class="team-name">Morocco</span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 5 -->
+        <div class="match-card">
+            <div class="team loser">
+                <span class="fi fi-ci"></span>
+                <span class="team-name">Côte d'Ivoire</span>
+            </div>
+            <div class="vs-badge"><a href="https://www.youtube.com/watch?v=h5gC7YXG9wE" target="_blank" style="text-decoration: none;">
+                <span class="match-number">1 - 2</span>
+            </a></div>
+            <div class="team winner">
+                <span class="fi fi-no"></span>
+                <span class="team-name">Norway</span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 6 -->
+        <div class="match-card">
+            <div class="team winner">
+                <span class="fi fi-fr"></span>
+                <span class="team-name">France</span>
+            </div>
+            <div class="vs-badge"><a href="https://youtu.be/z82ZpCuf2g4?si=7318i_A1z791xE_5" target="_blank" style="text-decoration: none;">
+                <span class="match-number">3 - 0</span>
+            </a></div>
+            <div class="team loser">
+                <span class="fi fi-se"></span>
+                <span class="team-name">Sweden</span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 7 (ยังไม่แข่ง ไม่มี class winner/loser) -->
+        <div class="match-card">
+            <div class="team winner">
+                <span class="fi fi-mx"></span>
+                <span class="team-name">Mexico</span>
+            </div>
+            <div class="vs-badge"><a href="https://www.youtube.com/watch?v=43Gcs7qTLqs" target="_blank" style="text-decoration: none;">
+                <span class="match-number">2 - 0</span>
+            </a></div>
+            <div class="team loser">
+                <span class="fi fi-ec"></span>
+                <span class="team-name">Ecuador</span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 8 -->
+        <div class="match-card">
+            <div class="team winner">
+                <span class="fi fi-gb-eng"></span>
+                <span class="team-name">England</span>
+            </div>
+            <div class="vs-badge"><a href="https://www.youtube.com/watch?v=69Gc5u2wV9I" target="_blank" style="text-decoration: none;">
+                <span class="match-number">2 - 1</span>
+            </a></div>
+            <div class="team loser">
+                <span class="fi fi-cd"></span>
+                <span class="team-name">Congo DR</span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 9 -->
+        <div class="match-card">
+            <div class="team winner">
+                <span class="fi fi-be"></span>
+                <span class="team-name">Belgium</span>
+            </div>
+            <div class="vs-badge"><a href="https://www.youtube.com/watch?v=UYeuzw-l9VM" target="_blank" style="text-decoration: none;">
+                <span class="match-number">3 - 2</span>
+            </a></div>
+            <div class="team loser">
+                <span class="fi fi-sn"></span>
+                <span class="team-name">Senegal</span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 10 -->
+        <div class="match-card">
+            <div class="team winner">
+                <span class="fi fi-us"></span>
+                <span class="team-name">USA</span>
+            </div>
+            <div class="vs-badge"><a href="https://www.youtube.com/watch?v=koRLN1nDB9w" target="_blank" style="text-decoration: none;">
+                <span class="match-number">2 - 0</span>
+            </a></div>
+            <div class="team loser">
+                <span class="fi fi-ba"></span>
+                <span class="team-name">Bosnia and Herzegovina</span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 11 -->
+        <div class="match-card">
+            <div class="team">
+                <span class="fi fi-es"></span>
+                <span class="team-name">Spain</span>
+            </div>
+            <div class="vs-badge"><a href="" target="_blank" style="text-decoration: none;">
+                <span class="match-number">Match 11</span>
+            </a></div>
+            <div class="team">
+                <span class="fi fi-at"></span>
+                <span class="team-name">Austria</span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 12 -->
+        <div class="match-card">
+            <div class="team">
+                <span class="fi fi-pt"></span>
+                <span class="team-name">Portugal</span>
+            </div>
+            <div class="vs-badge"><a href="" target="_blank" style="text-decoration: none;">
+                <span class="match-number">Match 12</span>
+            </a></div>
+            <div class="team">
+                <span class="fi fi-hr"></span>
+                <span class="team-name">Croatia</span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 13 -->
+        <div class="match-card">
+            <div class="team">
+                <span class="fi fi-ch"></span>
+                <span class="team-name">Switzerland</span>
+            </div>
+            <div class="vs-badge"><a href="" target="_blank" style="text-decoration: none;">
+                <span class="match-number">Match 13</span>
+            </a></div>
+            <div class="team">
+                <span class="fi fi-dz"></span>
+                <span class="team-name">Algeria</span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 14 -->
+        <div class="match-card">
+            <div class="team">
+                <span class="fi fi-au"></span>
+                <span class="team-name">Australia</span>
+            </div>
+            <div class="vs-badge"><a href="" target="_blank" style="text-decoration: none;">
+                <span class="match-number">Match 14</span>
+            </a></div>
+            <div class="team">
+                <span class="fi fi-eg"></span>
+                <span class="team-name">Egypt</span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 15 -->
+        <div class="match-card">
+            <div class="team">
+                <span class="fi fi-ar"></span>
+                <span class="team-name">Argentina</span>
+            </div>
+            <div class="vs-badge"><a href="" target="_blank" style="text-decoration: none;">
+                <span class="match-number">Match 15</span>
+            </a></div>
+            <div class="team">
+                <span class="fi fi-cv"></span>
+                <span class="team-name">Cape Verde</span>
+            </div>
+        </div>
+        
+        <!-- คู่ที่ 16 -->
+        <div class="match-card">
+            <div class="team">
+                <span class="fi fi-co"></span>
+                <span class="team-name">Colombia</span>
+            </div>
+            <div class="vs-badge"><a href="" target="_blank" style="text-decoration: none;">
+                <span class="match-number">Match 16</span>
+            </a></div>
+            <div class="team">
+                <span class="fi fi-gh"></span>
+                <span class="team-name">Ghana</span>
+            </div>
+        </div>
+        
+    </div>
+
+    <header style="margin-top: 30px;">
+        <p style="background-color: white; color: blue;">Round of 16 </p>
+    </header>
+
+     <div class="match-grid">
+
+        <!-- คู่ที่ 1 -->
+        <div class="match-card"> 
+            <!-- ใส่ class "loser" สำหรับทีมแพ้ -->
+            <div class="team">
+                <span class="fi fi-ca"></span>
+                <span class="team-name">Canada</span> 
+            </div>
+            <div class="vs-badge"> <a href="" target="_blank" style="text-decoration: none;">
+                <span class="match-number">Match 1</span>
+            </a></div>
+            <!-- ใส่ class "winner" สำหรับทีมชนะ -->
+            <div class="team">
+                <span class="fi fi-ma"></span>
+                <span class="team-name">Morocco</span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 2 -->
+        <div class="match-card">
+            <div class="team">
+                <span class="fi fi-py"></span>
+                <span class="team-name">Paraguay</span>
+            </div>
+            <div class="vs-badge"><a href="" target="_blank" style="text-decoration: none;">
+                <span class="match-number">Match 2</span>
+            </a></div>
+            <div class="team">
+                <span class="fi fi-fr"></span>
+                <span class="team-name">France</span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 3 -->
+        <div class="match-card">
+            <div class="team">
+                <span class="fi fi-br"></span>
+                <span class="team-name">Brazil</span>
+            </div>
+            <div class="vs-badge"><a href="" target="_blank" style="text-decoration: none;">
+                <span class="match-number">Match 3</span>
+            </a></div>
+            <div class="team">
+                <span class="fi fi-no"></span>
+                <span class="team-name">Norway</span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 4 -->
+        <div class="match-card">
+            <div class="team">
+                <span class="fi fi-mx"></span>
+                <span class="team-name">Mexico</span>
+            </div>
+            <div class="vs-badge"><a href="" target="_blank" style="text-decoration: none;">
+                <span class="match-number">Match 4</span>
+            </a></div>
+            <div class="team">
+                <span class="fi fi-gb-eng"></span>
+                <span class="team-name">England</span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 5 -->
+        <div class="match-card">
+            <div class="team">
+                <span class="fi fi-"></span>
+                <span class="team-name"></span>
+            </div>
+            <div class="vs-badge"><a href="" target="_blank" style="text-decoration: none;">
+                <span class="match-number">Match 5</span>
+            </a></div>
+            <div class="team">
+                <span class="fi fi-"></span>
+                <span class="team-name"></span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 6 -->
+        <div class="match-card">
+            <div class="team">
+                <span class="fi fi-us"></span>
+                <span class="team-name">USA</span>
+            </div>
+            <div class="vs-badge"><a href="" target="_blank" style="text-decoration: none;">
+                <span class="match-number">Match 6</span>
+            </a></div>
+            <div class="team">
+                <span class="fi fi-be"></span>
+                <span class="team-name">Belgium</span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 7 (ยังไม่แข่ง ไม่มี class winner/loser) -->
+        <div class="match-card">
+            <div class="team">
+                <span class="fi fi-"></span>
+                <span class="team-name"></span>
+            </div>
+            <div class="vs-badge"><a href="" target="_blank" style="text-decoration: none;">
+                <span class="match-number">Match 7</span>
+            </a></div>
+            <div class="team">
+                <span class="fi fi-"></span>
+                <span class="team-name"></span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 8 -->
+        <div class="match-card">
+            <div class="team">
+                <span class="fi fi-"></span>
+                <span class="team-name"></span>
+            </div>
+            <div class="vs-badge"><a href="" target="_blank" style="text-decoration: none;">
+                <span class="match-number">Match 8</span>
+            </a></div>
+            <div class="team">
+                <span class="fi fi-"></span>
+                <span class="team-name"></span>
+            </div>
+        </div>
+    </div>
+
+    <header style="margin-top: 30px;">
+        <p style="background-color: white; color: blue;">Round of 8 (Quarter-Final)</p>
+    </header>
+
+     <div class="match-grid">
+
+        <!-- คู่ที่ 1 -->
+        <div class="match-card"> 
+            <!-- ใส่ class "loser" สำหรับทีมแพ้ -->
+            <div class="team">
+                <span class="fi fi-"></span>
+                <span class="team-name"></span> 
+            </div>
+            <div class="vs-badge"> <a href="" target="_blank" style="text-decoration: none;">
+                <span class="match-number">Match 1</span>
+            </a></div>
+            <!-- ใส่ class "winner" สำหรับทีมชนะ -->
+            <div class="team">
+                <span class="fi fi-"></span>
+                <span class="team-name"></span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 2 -->
+        <div class="match-card">
+            <div class="team">
+                <span class="fi fi-"></span>
+                <span class="team-name"></span>
+            </div>
+            <div class="vs-badge"><a href="" target="_blank" style="text-decoration: none;">
+                <span class="match-number">Match 2</span>
+            </a></div>
+            <div class="team">
+                <span class="fi fi-"></span>
+                <span class="team-name"></span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 3 -->
+        <div class="match-card">
+            <div class="team">
+                <span class="fi fi-"></span>
+                <span class="team-name"></span>
+            </div>
+            <div class="vs-badge"><a href="" target="_blank" style="text-decoration: none;">
+                <span class="match-number">Match 3</span>
+            </a></div>
+            <div class="team">
+                <span class="fi fi-"></span>
+                <span class="team-name"></span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 4 -->
+        <div class="match-card">
+            <div class="team">
+                <span class="fi fi-"></span>
+                <span class="team-name"></span>
+            </div>
+            <div class="vs-badge"><a href="" target="_blank" style="text-decoration: none;">
+                <span class="match-number">Match 4</span>
+            </a></div>
+            <div class="team">
+                <span class="fi fi-"></span>
+                <span class="team-name"></span>
+            </div>
+        </div>
+    </div>
+
+    <header style="margin-top: 30px;">
+        <p style="background-color: white; color: blue;">Round of 4 (Semi-Final) </p>
+    </header>
+
+     <div class="match-grid">
+
+        <!-- คู่ที่ 1 -->
+        <div class="match-card"> 
+            <!-- ใส่ class "loser" สำหรับทีมแพ้ -->
+            <div class="team">
+                <span class="fi fi-"></span>
+                <span class="team-name"></span> 
+            </div>
+            <div class="vs-badge"> <a href="" target="_blank" style="text-decoration: none;">
+                <span class="match-number">Match 1</span>
+            </a></div>
+            <!-- ใส่ class "winner" สำหรับทีมชนะ -->
+            <div class="team">
+                <span class="fi fi-"></span>
+                <span class="team-name"></span>
+            </div>
+        </div>
+
+        <!-- คู่ที่ 2 -->
+        <div class="match-card">
+            <div class="team">
+                <span class="fi fi-"></span>
+                <span class="team-name"></span>
+            </div>
+            <div class="vs-badge"><a href="" target="_blank" style="text-decoration: none;">
+                <span class="match-number">Match 2</span>
+            </a></div>
+            <div class="team">
+                <span class="fi fi-"></span>
+                <span class="team-name"></span>
+            </div>
+        </div>
+    </div>
+
+    <header style="margin-top: 30px;">
+        <p style="background-color: white; color: blue;">3rd place play-off </p>
+    </header>
+
+     <div class="match-grid">
+
+        <!-- คู่ที่ 1 -->
+        <div class="match-card"> 
+            <!-- ใส่ class "loser" สำหรับทีมแพ้ -->
+            <div class="team">
+                <span class="fi fi-"></span>
+                <span class="team-name"></span> 
+            </div>
+            <div class="vs-badge"> <a href="" target="_blank" style="text-decoration: none;">
+                <span class="match-number">Match 1</span>
+            </a></div>
+            <!-- ใส่ class "winner" สำหรับทีมชนะ -->
+            <div class="team">
+                <span class="fi fi-"></span>
+                <span class="team-name"></span>
+            </div>
+        </div>
+    </div>
+
+        <header style="margin-top: 30px;">
+        <p style="background-color: white; color: blue;">Final</p>
+    </header>
+
+     <div class="match-grid">
+
+        <!-- คู่ที่ 1 -->
+        <div class="match-card"> 
+            <!-- ใส่ class "loser" สำหรับทีมแพ้ -->
+            <div class="team">
+                <span class="fi fi-"></span>
+                <span class="team-name"></span> 
+            </div>
+            <div class="vs-badge"> <a href="" target="_blank" style="text-decoration: none;">
+                <span class="match-number">Match 1</span>
+            </a></div>
+            <!-- ใส่ class "winner" สำหรับทีมชนะ -->
+            <div class="team">
+                <span class="fi fi-"></span>
+                <span class="team-name"></span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
