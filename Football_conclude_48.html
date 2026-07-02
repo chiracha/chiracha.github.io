@@ -9,7 +9,8 @@
     
     <style>
         :root {
-            --bg-color: #f1f5f9;
+            /* --bg-color: #f1f5f9; */
+            --bg-color: #0a0e17;
             --card-bg: #ffffff;
             --text-color: #0f172a;
             --primary-color: #1e3a8a;
@@ -56,6 +57,13 @@
             padding: 20px;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
             border: 1px solid #e2e8f0;
+        }
+
+        .group-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 20px rgba(255, 0, 76, 0.15);
+            border-width: 5px;;
         }
 
         .group-title {
