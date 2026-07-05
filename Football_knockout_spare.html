@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIFA World Cup 2026 - Match Results</title>
+    <!-- CSS ไลบรารีธงชาติระดับสากล -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"/>
+    
+    <style>
+        :root {
+            /* --bg-color: #f8fafc; */
+            --bg-color: #0a0e17;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --win-color: #10b981; /* สีเขียวสำหรับผู้ชนะ */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+            color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        header h1 { margin: 0 0 10px 0; font-size: 2.2rem; text-transform: uppercase; }
+        header p { margin: 0; opacity: 0.9; font-size: 1.1rem; }
+
+        /* จัด Grid Layout ให้สวยงามตามขนาดหน้าจอ */
+        #matches-container, #matches-container_1 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .match-link, .match_1-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .match-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .match-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            /* border-color: #cbd5e1; */
+            border-color: red;
+            border-width: 5px;
+        }
+
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px dashed #f1f5f9;
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .match-body {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 40%;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .flag-box {
+            font-size: 3rem;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .team-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .score-box {
+            width: 20%;
+            text-align: center;
+            font-size: 1.3rem; /*1.5*/
+            font-weight: bold;
+            background: #f1f5f9;
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: #0f172a;
+        }
+
+        /* ============================
+           🎨 กราฟิก ทีมชนะ / แพ้ / เสมอ
+        ============================ */
+        
+        /* ทีมชนะ (Winner) */
+        .team.winner .team-name {
+            color: var(--win-color);
+            font-weight: 700;
+        }
+        .team.winner .flag-box {
+            transform: scale(1.15); /* ขยายธงชาติให้เด่นขึ้น */
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4); /* เพิ่มเงาสีเขียว */
+        }
+
+        /* ทีมแพ้ (Loser) */
+        .team.loser {
+            opacity: 0.45; /* จางลง */
+        }
+        .team.loser .flag-box {
+            filter: grayscale(85%); /* เปลี่ยนเป็นสีขาวดำ */
+        }
+        .match-card:hover .team.loser {
+            opacity: 0.9;
+        }
+        .match-card:hover .team.loser .flag-box {
+            filter: grayscale(20%); /* คืนสีเมื่อเอาเมาส์ชี้ */
+        }
+
+        /* เสมอ (Draw) */
+        .team.draw .team-name {
+            color: var(--text-main);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>FIFA World Cup 2026</h1>
+        <h2>Knockout Round</h2>
+        <p>Result & Highlight (Match 73 - 88)</p>
+        <!-- <p>Developed by Chirachai</p> -->
+    </header>
+
+    <div id="matches-container">
+        <!-- ข้อมูลทั้งหมดจะถูกเรนเดอร์อัตโนมัติผ่าน JavaScript -->
+    </div>
+
+    <script>
+        // ข้อมูล JSON ทั้ง 72 แมตช์ที่ถูกดึงและจัดเตรียมมาจาก Excel
+        const matchData = [{"match": 73, "group": "Round of 32", "t1": "South Africa", "f1": "za", "s1": 0, "s2": 1, "t2": "Canada", "f2": "ca", "link": "https://youtu.be/mvq85jJax9A?si=OCfpDrkCcy1DKaI8"}, 
+                           {"match": 74, "group": "Round of 32", "t1": "Brazil", "f1": "br", "s1": 2, "s2": 1, "t2": "Japan", "f2": "jp", "link": "https://youtu.be/N4rUTE0aCDQ?si=w8lgjMT7QoTUQMAI"}, 
+                           {"match": 75, "group": "Round of 32", "t1": "Germany (1)", "f1": "de", "s1": 3, "s2": 4, "t2": "Paraguay (1)", "f2": "py", "link": "https://youtu.be/ZiFoGrv_dsE?si=tTN68HCPNPDEqPAk"}, 
+                           {"match": 76, "group": "Round of 32", "t1": "Netherlands (1)", "f1": "nl", "s1": 2, "s2": 3, "t2": "Morocco (1)", "f2": "ma", "link": "https://www.youtube.com/watch?v=l1oSv8BlSOs"}, 
+                           {"match": 77, "group": "Round of 32", "t1": "Ivory Coast", "f1": "ci", "s1": 1, "s2": 2, "t2": "Norway", "f2": "no", "link": "https://www.youtube.com/watch?v=h5gC7YXG9wE"}, 
+                           {"match": 78, "group": "Round of 32", "t1": "France", "f1": "fr", "s1": 3, "s2": 0, "t2": "Sweden", "f2": "se", "link": "https://youtu.be/z82ZpCuf2g4?si=7318i_A1z791xE_5"}, 
+                           {"match": 79, "group": "Round of 32", "t1": "Mexico", "f1": "mx", "s1": 2, "s2": 0, "t2": "Ecuador", "f2": "ec", "link": "https://www.youtube.com/watch?v=43Gcs7qTLqs"}, 
+                           {"match": 80, "group": "Round of 32", "t1": "England", "f1": "gb-eng", "s1": 2, "s2": 1, "t2": "Congo DR", "f2": "cd", "link": "https://www.youtube.com/watch?v=69Gc5u2wV9I"}, 
+                           {"match": 81, "group": "Round of 32", "t1": "Belgium", "f1": "be", "s1": 3, "s2": 2, "t2": "Senegal", "f2": "sn", "link": "https://www.youtube.com/watch?v=UYeuzw-l9VM"}, 
+                           {"match": 82, "group": "Round of 32", "t1": "USA", "f1": "us", "s1": 2, "s2": 0, "t2": "Bosnia and Herzegovina", "f2": "ba", "link": "https://www.youtube.com/watch?v=koRLN1nDB9w"}, 
+                           {"match": 83, "group": "Round of 32", "t1": "Spain", "f1": "es", "s1": 3, "s2": 0, "t2": "Austria", "f2": "at", "link": "https://www.youtube.com/watch?v=A_4jDpW00gE"}, 
+                           {"match": 84, "group": "Round of 32", "t1": "Portugal", "f1": "pt", "s1": 2, "s2": 1, "t2": "Croatia", "f2": "hr", "link": "https://www.youtube.com/watch?v=J0FdIH1A6FI"}, 
+                           {"match": 85, "group": "Round of 32", "t1": "Switzerland", "f1": "ch", "s1": 2, "s2": 0, "t2": "Algeria", "f2": "dz", "link": "https://www.youtube.com/watch?v=a1ByF6bsC-A"}, 
+                           {"match": 86, "group": "Round of 32", "t1": "Australia (1)", "f1": "au", "s1": 2, "s2": 4, "t2": "Egypt (1)", "f2": "eg", "link": "https://www.youtube.com/watch?v=MmjGYBp55xo"}, 
+                           {"match": 87, "group": "Round of 32", "t1": "Argentina", "f1": "ar", "s1": 3, "s2": 2, "t2": "Cape Verde", "f2": "cv", "link": "https://youtu.be/d9XuxPbPC2M?si=vluYBhwvDyrJBakp"}, 
+                           {"match": 88, "group": "Round of 32", "t1": "Colombia", "f1": "co", "s1": 1, "s2": 0, "t2": "Ghana", "f2": "gh", "link": "https://www.youtube.com/watch?v=Egx8eu7YmIQ"}];
+                           
+
+        const container = document.getElementById('matches-container');
+
+        // ฟังก์ชันลูปสร้างการ์ดของแต่ละแมตช์
+        matchData.forEach(match => {
+            
+            // เช็คสถานะ ชนะ/แพ้/เสมอ
+            let classT1 = "draw";
+            let classT2 = "draw";
+            
+            if (match.s1 > match.s2) {
+                classT1 = "winner";
+                classT2 = "loser";
+            } else if (match.s2 > match.s1) {
+                classT1 = "loser";
+                classT2 = "winner";
+            }
+
+            // สร้าง HTML Structure ของแต่ละการ์ด
+            const cardHTML = `
+                <a href="${match.link}" target="_blank" class="match-link">
+                    <div class="match-card">
+                        <div class="match-header">
+                            <span>Match ${match.match}</span>
+                            <span>${match.group}</span>
+                        </div>
+                        <div class="match-body">
+                            <!-- ทีมฝั่งซ้าย (Team 1) -->
+                            <div class="team ${classT1}">
+                                <div class="flag-box"><span class="fi fi-${match.f1}"></span></div>
+                                <span class="team-name">${match.t1}</span>
+                            </div>
+                            
+                            <!-- สกอร์การแข่งขัน -->
+                            <div class="score-box">
+                                ${match.s1} - ${match.s2}
+                            </div>
+                            
+                            <!-- ทีมฝั่งขวา (Team 2) -->
+                            <div class="team ${classT2}">
+                                <div class="flag-box"><span class="fi fi-${match.f2}"></span></div>
+                                <span class="team-name">${match.t2}</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            `;
+            
+            // นำ HTML ที่สร้างไปแทรกลงในคอนเทนเนอร์
+            container.innerHTML += cardHTML;
+        });
+    </script>
+
+
+
+
+
+
+    <header style="margin-top: 30px;">
+        <h2>Knockout Round</h2>
+        <p>Result & Highlight (Match 89 - 96)</p>
+        <!-- <p>Developed by Chirachai</p> -->
+    </header>
+
+    <div id="matches-container_1">
+        <!-- ข้อมูลทั้งหมดจะถูกเรนเดอร์อัตโนมัติผ่าน JavaScript -->
+    </div>
+
+    <script>
+        // ข้อมูล JSON ทั้ง 72 แมตช์ที่ถูกดึงและจัดเตรียมมาจาก Excel
+        const matchData_1 = [{"match": 89, "group": "Round of 16", "t1": "Canada", "f1": "ca", "s1": 0, "s2": 3, "t2": "Morocco", "f2": "ma", "link": "https://youtu.be/myr-XX0Jjt8?si=I6higVdqxS83iDwI"}, 
+                           {"match": 90, "group": "Round of 16", "t1": "Paraguay", "f1": "py", "s1": 0, "s2": 1, "t2": "France", "f2": "fr", "link": "https://www.youtube.com/watch?v=YmoLmoJXmAo"}, 
+                           {"match": 91, "group": "Round of 16", "t1": "Brazil", "f1": "br", "s1": 1, "s2": 2, "t2": "Norway", "f2": "no", "link": "https://youtu.be/59ZQSE33wtI?si=3t7xAXPrOvp5jIoJ"}, 
+                           {"match": 92, "group": "Round of 16", "t1": "Mexico", "f1": "mx", "s1": 0, "s2": 0, "t2": "England", "f2": "gb-eng", "link": ""}, 
+                           {"match": 93, "group": "Round of 16", "t1": "Portugal", "f1": "pt", "s1": 0, "s2": 0, "t2": "Spain", "f2": "es", "link": ""}, 
+                           {"match": 94, "group": "Round of 16", "t1": "USA", "f1": "us", "s1": 0, "s2": 0, "t2": "Belgium", "f2": "be", "link": ""}, 
+                           {"match": 95, "group": "Round of 16", "t1": "Argentina", "f1": "ar", "s1": 0, "s2": 0, "t2": "Egypt", "f2": "eg", "link": ""}, 
+                           {"match": 96, "group": "Round of 16", "t1": "Switzerland", "f1": "ch", "s1": 0, "s2": 0, "t2": "Colombia", "f2": "co", "link": ""}]; 
+                           
+                           
+
+        const container_1 = document.getElementById('matches-container_1');
+
+        // ฟังก์ชันลูปสร้างการ์ดของแต่ละแมตช์
+        matchData_1.forEach(match_1 => {
+            
+            // เช็คสถานะ ชนะ/แพ้/เสมอ
+            let classT1 = "draw";
+            let classT2 = "draw";
+            
+            if (match_1.s1 > match_1.s2) {
+                classT1 = "winner";
+                classT2 = "loser";
+            } else if (match_1.s2 > match_1.s1) {
+                classT1 = "loser";
+                classT2 = "winner";
+            }
+
+            // สร้าง HTML Structure ของแต่ละการ์ด
+            const cardHTML = `
+                <a href="${match_1.link}" target="_blank" class="match-link">
+                    <div class="match-card">
+                        <div class="match-header">
+                            <span>Match ${match_1.match}</span>
+                            <span>${match_1.group}</span>
+                        </div>
+                        <div class="match-body">
+                            <!-- ทีมฝั่งซ้าย (Team 1) -->
+                            <div class="team ${classT1}">
+                                <div class="flag-box"><span class="fi fi-${match_1.f1}"></span></div>
+                                <span class="team-name">${match_1.t1}</span>
+                            </div>
+                            
+                            <!-- สกอร์การแข่งขัน -->
+                            <div class="score-box">
+                                ${match_1.s1} - ${match_1.s2}
+                            </div>
+                            
+                            <!-- ทีมฝั่งขวา (Team 2) -->
+                            <div class="team ${classT2}">
+                                <div class="flag-box"><span class="fi fi-${match_1.f2}"></span></div>
+                                <span class="team-name">${match_1.t2}</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            `;
+            
+            // นำ HTML ที่สร้างไปแทรกลงในคอนเทนเนอร์
+            container_1.innerHTML += cardHTML;
+        });
+    </script>
+
+</body>
+</html>
