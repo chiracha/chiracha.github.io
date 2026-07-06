@@ -22,7 +22,7 @@
             /* พื้นหลังสีน้ำเงินเข้มสไตล์สเตเดียมระดับโลก */
             background-image: url("bg.png");
             background-size: cover;
-            /* background: radial-gradient(circle at center, #1e3a8a 0%, #0f172a 100%); */
+            background-color: #0f172a;
             padding: 20px;
             position: relative;
             overflow-x: hidden;
@@ -48,20 +48,20 @@
             width: 100%;
             max-width: 600px;
             text-align: center;
-            background: rgba(15, 23, 42, 0.75);
+            background: rgba(15, 23, 42, 0.8);
             padding: 40px 30px;
             border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(16px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
         }
 
         /* ==================== โซนอนิเมชันฟุตบอลเข้าตาข่าย ==================== */
         .soccer-animation {
             position: relative;
             width: 100%;
-            height: 140px;
-            margin-bottom: 15px;
+            height: 120px;
+            margin-bottom: 10px;
             overflow: hidden;
         }
 
@@ -71,7 +71,7 @@
             right: 15px;
             top: 15px;
             width: 70px;
-            height: 110px;
+            height: 90px;
             border-left: 3px dashed rgba(255, 255, 255, 0.5);
             background-image: 
                 linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%), 
@@ -87,7 +87,7 @@
         .soccer-ball {
             position: absolute;
             left: -50px;
-            top: 45px;
+            top: 35px;
             font-size: 45px;
             line-height: 1;
             filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8));
@@ -129,9 +129,67 @@
             color: #38bdf8; /* สีฟ้าสว่างไพรมารี่ */
             font-size: 1.1rem;
             font-weight: 400;
-            margin-bottom: 35px;
+            margin-bottom: 25px;
             letter-spacing: 4px;
             text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+        }
+
+        /* ==================== โซนรูปภาพไฮไลท์ ==================== */
+        .featured-image-card {
+            position: relative;
+            margin: 0 auto 30px auto;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.4s ease;
+            max-width: 100%;
+        }
+
+        .featured-image-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 40%;
+            background: linear-gradient(to top, rgba(15, 23, 42, 0.85), transparent);
+            pointer-events: none;
+        }
+
+        .featured-image {
+            width: 100%;
+            height: auto;
+            max-height: 380px;
+            object-fit: cover;
+            object-position: center 20%;
+            display: block;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .featured-image-card:hover {
+            border-color: rgba(234, 179, 8, 0.5); /* เปลี่ยนขอบเป็นสีทองตอนเมาส์ชี้ */
+            box-shadow: 0 20px 40px rgba(234, 179, 8, 0.15);
+        }
+
+        .featured-image-card:hover .featured-image {
+            transform: scale(1.04);
+        }
+
+        .image-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            /* background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%); */
+            background: linear-gradient(135deg, red 0%, red 100%);
+            /* color: #0f172a; */
+            color:white;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 2;
         }
 
         .menu-container {
@@ -199,7 +257,9 @@
         @media (max-width: 480px) {
             .container { padding: 30px 20px; }
             .header-title { font-size: 1.8rem; }
-            .header-subtitle { font-size: 0.9rem; margin-bottom: 25px; }
+            .header-subtitle { font-size: 0.9rem; margin-bottom: 20px; }
+            .featured-image-card { margin-bottom: 20px; }
+            .featured-image { max-height: 260px; }
             .menu-item { padding: 16px 20px; font-size: 1rem; }
             .soccer-ball { animation: ballShootMobile 3s infinite cubic-bezier(0.25, 1, 0.5, 1); }
         }
@@ -225,20 +285,23 @@
 
         <h1 class="header-title">FIFA WORLD CUP 2026</h1>
         <p class="header-subtitle">Results & Highlights</p>
-         <!-- <p style="margin-top: 80px;"></p> -->
          
+        <div class="featured-image-card">
+            <div class="image-badge">LIV - PSG</div>
+            <img src="ฟุตบอล_1.jpg" alt="FIFA World Cup Highlight" class="featured-image">
+        </div>
 
         <div class="menu-container">
-            <a href="Football_group_stage.html" target="_blank" style="text-decoration: none;" class="menu-item">
+            <a href="Football_group_stage.html" target="_blank" class="menu-item">
                 1. ผลการแข่งขันรอบแบ่งกลุ่ม
             </a>
-            <a href="Group_Standing.html" target="_blank" style="text-decoration: none;" class="menu-item">
+            <a href="Group_Standing.html" target="_blank" class="menu-item">
                 2. ตารางอันดับรอบแบ่งกลุ่ม
             </a>
-            <a href="Football_knockout.html" target="_blank" style="text-decoration: none;" class="menu-item">
+            <a href="Football_knockout.html" target="_blank" class="menu-item">
                 3. ผลการแข่งขันรอบ Knockout
             </a>
-            <a href="Standing_Arrange.html" target="_blank" style="text-decoration: none;" class="menu-item">
+            <a href="Standing_Arrange.html" target="_blank" class="menu-item">
                 4. สรุปทีมภาพรวม
             </a>            
         </div>
