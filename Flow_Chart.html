@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIFA World Cup Knockout Stage - 32 Teams Balanced Bracket</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"/>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background: linear-gradient(135deg, #021B79, #0575E6, #00C9FF);
+    min-height: 100vh;
+    padding: 40px 10px;
+    overflow-x: hidden;
+}
+
+.title{
+    text-align:center;
+    color:white;
+    margin-bottom:40px;
+    padding: 0 10px;
+}
+
+.title h1{
+    font-size:32px;
+    font-weight:700;
+    letter-spacing:2px;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.title p{
+    opacity:.9;
+    margin-top:10px;
+    font-size: 14px;
+}
+
+/* --- Responsive View Controls (CSS Only Tabs for Mobile) --- */
+.bracket-toggle-container {
+    display: none;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 30px;
+    padding: 0 10px;
+}
+
+.tab-label {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    padding: 10px 14px;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(5px);
+}
+
+#tab-left:checked ~ .bracket-toggle-container label[for="tab-left"],
+#tab-center:checked ~ .bracket-toggle-container label[for="tab-center"],
+#tab-right:checked ~ .bracket-toggle-container label[for="tab-right"] {
+    background: #FFD700;
+    color: #021B79;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+}
+
+.tab-input {
+    display: none;
+}
+
+/* --- Wrapper สำหรับควบคุมการลื่นไหลแนวนอนบนจอใหญ่ --- */
+.bracket-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 20px;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* --- โครงสร้างหลักของ Two-Sided Bracket --- */
+.bracket-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    min-width: 2300px; /* รักษาโครงสร้าง Flow Chart แนวนอนเมื่อดูจอใหญ่ */
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* คอลัมน์ของแต่ละรอบการแข่งขัน */
+.round-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 1400px;
+    position: relative;
+    width: 220px;
+}
+
+.round-title {
+    color: #FFD700;
+    text-align: center;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 14px;
+    position: absolute;
+    top: -40px;
+    width: 100%;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+/* กล่องการแข่งขันแต่ละคู่ (Matchup) */
+.matchup {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(18px);
+    border-radius: 12px;
+    width: 100%;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+.matchup:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* แถวข้อมูลทีม */
+.team-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    color: white;
+    font-weight: 600;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.team-row:last-child {
+    border-bottom: none;
+}
+
+/* สไตล์เมื่อทีมชนะก้าวเข้าสู่รอบถัดไป */
+.team-row.winner {
+    background-color: rgba(0, 0, 0, 0.45);
+}
+.team-row.winner .score {
+    font-weight: 700;
+    color: #FFD700;
+}
+
+.team-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* รูปภาพธงชาติประเทศต่างๆ */
+.flag {
+    width: 26px;
+    height: 17px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    flex-shrink: 0;
+}
+
+.score {
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+}
+
+/* --- แกนกลาง: รอบชิงชนะเลิศและผู้ชนะสูงสุด --- */
+.center-axis {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    height: 1400px;
+    width: 240px;
+}
+
+.champion-box {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    border: 2px solid #FFF;
+    transform: scale(1.15);
+    box-shadow: 0 15px 35px rgba(255, 215, 0, 0.4);
+    width: 100%;
+}
+.champion-box .team-row {
+    color: #222;
+    justify-content: center;
+    font-size: 16px;
+    padding: 16px;
+}
+.champion-box .champ-title {
+    color: #FFF;
+    text-align: center;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 2px;
+    padding-top: 10px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* --- ระบบเส้น Flow Chart แตกแขนง 2 ฝั่ง --- */
+.left-side .matchup::after {
+    content: "";
+    position: absolute;
+    right: -14px;
+    top: 50%;
+    width: 14px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.3);
+}
+.left-side:not(.r32) .matchup::before {
+    content: "";
+    position: absolute;
+    left: -14px;
+    top: 50%;
+    width: 14px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.right-side .matchup::after {
+    content: "";
+    position: absolute;
+    left: -14px;
+    top: 50%;
+    width: 14px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.3);
+}
+.right-side:not(.r32) .matchup::before {
+    content: "";
+    position: absolute;
+    right: -14px;
+    top: 50%;
+    width: 14px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* ==================== RESPONSIVE MEDIA QUERIES ==================== */
+@media (min-width: 1025px) {
+    .title h1 { font-size: 42px; }
+}
+
+@media (max-width: 1024px) {
+    body { padding: 20px 0; }
+    .bracket-toggle-container { display: flex; }
+    .bracket-wrapper { overflow-x: hidden; }
+    
+    .bracket-container {
+        min-width: 100%;
+        width: 100%;
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+        gap: 40px;
+    }
+
+    .round-column, .center-axis {
+        width: 100%;
+        max-width: 450px;
+        height: auto;
+        gap: 20px;
+        display: none; /* ซ่อนไว้ก่อนเพื่อสลับแสดงผลตาม Tab */
+        padding-top: 30px;
+    }
+
+    .round-title {
+        position: relative;
+        top: 0;
+        margin-bottom: 15px;
+    }
+
+    /* สลัดเส้น Flow Chart ทิ้งในโหมดมือถือเพื่อความสะอาดตา */
+    .matchup::after, .matchup::before { display: none !important; }
+
+    /* ควบคุมการแสดงผลตาม Tab ที่เลือกบน Mobile */
+    #tab-left:checked ~ .bracket-wrapper .bracket-container .left-side {
+        display: flex;
+    }
+    #tab-center:checked ~ .bracket-wrapper .bracket-container .center-axis {
+        display: flex;
+    }
+    #tab-right:checked ~ .bracket-wrapper .bracket-container .right-side {
+        display: flex;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="title">
+    <h1>🏆 FIFA WORLD CUP KNOCKOUT STAGE</h1>
+    <p>32-TEAM TWO-SIDED TOURNAMENT FLOW CHART</p>
+</div>
+
+<input type="radio" id="tab-left" name="bracket-tabs" class="tab-input" checked>
+<input type="radio" id="tab-center" name="bracket-tabs" class="tab-input">
+<input type="radio" id="tab-right" name="bracket-tabs" class="tab-input">
+
+<div class="bracket-toggle-container">
+    <label for="tab-left" class="tab-label">สายซ้าย (Left)</label>
+    <label for="tab-center" class="tab-label">รอบชิง (Finals)</label>
+    <label for="tab-right" class="tab-label">สายขวา (Right)</label>
+</div>
+
+<div class="bracket-wrapper">
+    <div class="bracket-container">
+
+        <div class="round-column left-side r32">
+            <div class="round-title">Round of 32</div>
+            <div class="matchup">
+                <div class="team-row"><div class="team-info"><span class="fi fi-de"></span><span>Germany</span></div><div class="score">1 (3)</div></div>
+                <div class="team-row winner"><div class="team-info"><span class="fi fi-py"></span><span>Paraguay</span></div><div class="score">1 (4)</div></div>
+            </div>
+            <div class="matchup">
+                <div class="team-row winner"><div class="team-info"><span class="fi fi-fr"></span><span>France</span></div><div class="score">3</div></div>
+                <div class="team-row"><div class="team-info"><span class="fi fi-se"></span><span>Sweden</span></div><div class="score">0</div></div>
+            </div>
+            <div class="matchup">
+                <div class="team-row"><div class="team-info"><span class="fi fi-za"></span><span>South Africa</span></div><div class="score">0</div></div>
+                <div class="team-row winner"><div class="team-info"><span class="fi fi-ca"></span><span>Canada</span></div><div class="score">1</div></div>
+            </div>
+            <div class="matchup">
+                <div class="team-row"><div class="team-info"><span class="fi fi-nl"></span><span>Netherlands</span></div><div class="score">1 (2)</div></div>
+                <div class="team-row winner"><div class="team-info"><span class="fi fi-ma"></span><span>Morocco</span></div><div class="score">1 (3)</div></div>
+            </div>
+            <div class="matchup">
+                <div class="team-row winner"><div class="team-info"><span class="fi fi-pt"></span><span>Portugal</span></div><div class="score">2</div></div>
+                <div class="team-row"><div class="team-info"><span class="fi fi-hr"></span><span>Croatia</span></div><div class="score">1</div></div>
+            </div>
+            <div class="matchup">
+                <div class="team-row winner"><div class="team-info"><span class="fi fi-es"></span><span>Spain</span></div><div class="score">3</div></div>
+                <div class="team-row"><div class="team-info"><span class="fi fi-at"></span><span>Austria</span></div><div class="score">0</div></div>
+            </div>
+            <div class="matchup">
+                <div class="team-row winner"><div class="team-info"><span class="fi fi-us"></span><span>USA</span></div><div class="score">2</div></div>
+                <div class="team-row"><div class="team-info"><span class="fi fi-ba"></span><span>Bosnia and Herzegovina</span></div><div class="score">0</div></div>
+            </div>
+            <div class="matchup">
+                <div class="team-row winner"><div class="team-info"><span class="fi fi-be"></span><span>Belgium</span></div><div class="score">3</div></div>
+                <div class="team-row"><div class="team-info"><span class="fi fi-sn"></span><span>Senegal</span></div><div class="score">2</div></div>
+            </div>
+        </div>
+
+        <div class="round-column left-side">
+            <div class="round-title">Round of 16</div>
+            <div class="matchup">
+                <div class="team-row"><div class="team-info"><span class="fi fi-py"></span><span>Paraguay</span></div><div class="score">0</div></div>
+                <div class="team-row winner"><div class="team-info"><span class="fi fi-fr"></span><span>France</span></div><div class="score">1</div></div>
+            </div>
+            <div class="matchup">
+                <div class="team-row"><div class="team-info"><span class="fi fi-ca"></span><span>Canada</span></div><div class="score">0</div></div>
+                <div class="team-row winner"><div class="team-info"><span class="fi fi-ma"></span><span>Morocco</span></div><div class="score">3</div></div>
+            </div>
+            <div class="matchup">
+                <div class="team-row"><div class="team-info"><span class="fi fi-pt"></span><span>Portugal</span></div><div class="score">-</div></div>
+                <div class="team-row"><div class="team-info"><span class="fi fi-es"></span><span>Spain</span></div><div class="score">-</div></div>
+            </div>
+            <div class="matchup">
+                <div class="team-row"><div class="team-info"><span class="fi fi-us"></span><span>USA</span></div><div class="score">-</div></div>
+                <div class="team-row"><div class="team-info"><span class="fi fi-be"></span><span>Belgium</span></div><div class="score">-</div></div>
+            </div>
+        </div>
+
+        <div class="round-column left-side">
+            <div class="round-title">Quarter-Finals</div>
+            <div class="matchup">
+                <div class="team-row"><div class="team-info"><span class="fi fi-fr"></span><span>France</span></div><div class="score">-</div></div>
+                <div class="team-row"><div class="team-info"><span class="fi fi-ma"></span><span>Morocco</span></div><div class="score">-</div></div>
+            </div>
+            <div class="matchup">
+                <div class="team-row"><div class="team-info"><span class="fi fi-"></span><span>-</span></div><div class="score">-</div></div>
+                <div class="team-row"><div class="team-info"><span class="fi fi-"></span><span>-</span></div><div class="score">-</div></div>
+            </div>
+        </div>
+
+        <div class="round-column left-side">
+            <div class="round-title">Semi-Finals</div>
+            <div class="matchup">
+                <div class="team-row"><div class="team-info"><span class="fi fi-"></span><span>-</span></div><div class="score">-</div></div>
+                <div class="team-row"><div class="team-info"><span class="fi fi-"></span><span>-</span></div><div class="score">-</div></div>
+            </div>
+        </div>
+
+        <div class="center-axis">
+            <div class="matchup champion-box">
+                <div class="champ-title">🏆 WORLD CHAMPION</div>
+                <div class="team-row">
+                    <div class="team-info">
+                        <span class="fi fi-" style="width:34px; height:22px;"></span>
+                        <strong style="font-size: 16px; letter-spacing: 1px;">-</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div style="color: #FFD700; font-weight: 700; font-size: 14px; letter-spacing: 2px;">THE FINAL</div>
+            <div class="matchup" style="width: 100%; border: 2px solid #FFD700;">
+                <div class="team-row">
+                    <div class="team-info"><span class="fi fi-"></span><span>-</span></div>
+                    <div class="score">-</div>
+                </div>
+                <div class="team-row">
+                    <div class="team-info"><span class="fi fi-"></span><span>-</span></div>
+                    <div class="score">-</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="round-column right-side">
+            <div class="round-title">Semi-Finals</div>
+            <div class="matchup">
+                <div class="team-row"><div class="team-info"><span class="fi fi-"></span><span>-</span></div><div class="score">-</div></div>
+                <div class="team-row"><div class="team-info"><span class="fi fi-"></span><span>-</span></div><div class="score">-</div></div>
+            </div>
+        </div>
+
+        <div class="round-column right-side">
+            <div class="round-title">Quarter-Finals</div>
+            <div class="matchup">
+                <div class="team-row"><div class="team-info"><span class="fi fi-no"></span><span>Norway</span></div><div class="score">-</div></div>
+                <div class="team-row"><div class="team-info"><span class="fi fi-gb-eng"></span><span>England</span></div><div class="score">-</div></div>
+            </div>
+            <div class="matchup">
+                <div class="team-row"><div class="team-info"><span class="fi fi-"></span><span>-</span></div><div class="score">-</div></div>
+                <div class="team-row"><div class="team-info"><span class="fi fi-"></span><span>-</span></div><div class="score">-</div></div>
+            </div>
+        </div>
+
+        <div class="round-column right-side">
+            <div class="round-title">Round of 16</div>
+            <div class="matchup">
+                <div class="team-row"><div class="team-info"><span class="fi fi-br"></span><span>Brazil</span></div><div class="score">1</div></div>
+                <div class="team-row winner"><div class="team-info"><span class="fi fi-no"></span><span>Norway</span></div><div class="score">2</div></div>
+            </div>
+            <div class="matchup">
+                <div class="team-row"><div class="team-info"><span class="fi fi-mx"></span><span>Mexico</span></div><div class="score">2</div></div>
+                <div class="team-row winner"><div class="team-info"><span class="fi fi-gb-eng"></span><span>England</span></div><div class="score">3</div></div>
+            </div>
+            <div class="matchup">
+                <div class="team-row"><div class="team-info"><span class="fi fi-ar"></span><span>Argentina</span></div><div class="score">-</div></div>
+                <div class="team-row"><div class="team-info"><span class="fi fi-eg"></span><span>Egypt</span></div><div class="score">-</div></div>
+            </div>
+            <div class="matchup">
+                <div class="team-row"><div class="team-info"><span class="fi fi-ch"></span><span>Switzerland</span></div><div class="score">-</div></div>
+                <div class="team-row"><div class="team-info"><span class="fi fi-co"></span><span>Colombia</span></div><div class="score">-</div></div>
+            </div>
+        </div>
+
+        <div class="round-column right-side r32">
+            <div class="round-title">Round of 32</div>
+            <div class="matchup">
+                <div class="team-row winner"><div class="team-info"><span class="fi fi-br"></span><span>Brazil</span></div><div class="score">2</div></div>
+                <div class="team-row"><div class="team-info"><span class="flag fi fi-jp"></span><span>Japan</span></div><div class="score">1</div></div>
+            </div>
+            <div class="matchup">
+                <div class="team-row"><div class="team-info"><span class="fi fi-ci"></span><span>Ivory Coast</span></div><div class="score">1</div></div>
+                <div class="team-row winner"><div class="team-info"><span class="fi fi-no"></span><span>Norway</span></div><div class="score">2</div></div>
+            </div>
+            <div class="matchup">
+                <div class="team-row winner"><div class="team-info"><span class="fi fi-mx"></span><span>Mexico</span></div><div class="score">2</div></div>
+                <div class="team-row"><div class="team-info"><span class="fi fi-ec"></span><span>Ecuador</span></div><div class="score">0</div></div>
+            </div>
+            <div class="matchup">
+                <div class="team-row winner"><div class="team-info"><span class="fi fi-gb-eng"></span><span>England</span></div><div class="score">2</div></div>
+                <div class="team-row"><div class="team-info"><span class="fi fi-cd"></span><span>Congo DR</span></div><div class="score">1</div></div>
+            </div>
+            <div class="matchup">
+                <div class="team-row winner"><div class="team-info"><span class="fi fi-ar"></span><span>Argentina</span></div><div class="score">3</div></div>
+                <div class="team-row"><div class="team-info"><span class="fi fi-cv"></span><span>Cape Verde</span></div><div class="score">2</div></div>
+            </div>
+            <div class="matchup">
+                <div class="team-row"><div class="team-info"><span class="fi fi-au"></span><span>Australia</span></div><div class="score">1 (2)</div></div>
+                <div class="team-row winner"><div class="team-info"><span class="fi fi-eg"></span><span>Egypt</span></div><div class="score">1 (4)</div></div>
+            </div>
+            <div class="matchup">
+                <div class="team-row winner"><div class="team-info"><span class="fi fi-ch"></span><span>Switzerland</span></div><div class="score">2</div></div>
+                <div class="team-row"><div class="team-info"><span class="fi fi-dz"></span><span>Algeria</span></div><div class="score">0</div></div>
+            </div>
+            <div class="matchup">
+                <div class="team-row winner"><div class="team-info"><span class="fi fi-co"></span><span>Colombia</span></div><div class="score">1</div></div>
+                <div class="team-row"><div class="team-info"><span class="fi fi-gh"></span><span>Ghana</span></div><div class="score">0</div></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
