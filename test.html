@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIFA World Cup 2026 - Match Center Menu</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* พื้นหลังสีน้ำเงินเข้มสไตล์สเตเดียมระดับโลก */
+            background-image: url("bg.png");
+            background-size: cover;
+            background-color: #0f172a;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ลายเส้นสนามฟุตบอลและแสง Aura เสมือนจริง */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(circle at 50% 20%, rgba(56, 189, 248, 0.2) 0%, transparent 60%),
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 50px 50px, 50px 50px;
+            z-index: 0;
+        }
+
+        /* กล่องข้อความหลัก */
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            background: rgba(15, 23, 42, 0.8);
+            padding: 40px 30px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+        }
+
+        /* ==================== โซนอนิเมชันฟุตบอลเข้าตาข่าย ==================== */
+        .soccer-animation {
+            position: relative;
+            width: 100%;
+            height: 120px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        /* ตาข่ายโกลฝั่งขวา */
+        .goal-net {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            width: 70px;
+            height: 90px;
+            border-left: 3px dashed rgba(255, 255, 255, 0.5);
+            background-image: 
+                linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%), 
+                linear-gradient(-45deg, rgba(255,255,255,0.1) 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.1) 75%), 
+                linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.1) 75%);
+            background-size: 12px 12px;
+            border-radius: 0 15px 15px 0;
+            animation: netVibrate 3s infinite ease-in-out;
+        }
+
+        /* ตัวลูกบอล */
+        .soccer-ball {
+            position: absolute;
+            left: -50px;
+            top: 35px;
+            font-size: 45px;
+            line-height: 1;
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8));
+            animation: ballShoot 3s infinite cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* อนิเมชันลูกบอลพุ่ง */
+        @keyframes ballShoot {
+            0% { transform: translateX(0) translateY(30px) rotate(0deg) scale(0.5); opacity: 0; }
+            10% { opacity: 1; }
+            40% { transform: translateX(460px) translateY(-15px) rotate(720deg) scale(1); } /* ชนตาข่าย */
+            45% { transform: translateX(440px) translateY(0px) rotate(760deg) scale(0.95); } /* เด้งกลับ */
+            60% { transform: translateX(430px) translateY(45px) rotate(800deg) scale(0.9); opacity: 1; } /* ตกพื้น */
+            80%, 100% { transform: translateX(430px) translateY(45px) rotate(800deg) scale(0.9); opacity: 0; }
+        }
+
+        /* อนิเมชันตาข่ายสะเทือนเมื่อโดนบอล */
+        @keyframes netVibrate {
+            0%, 38% { transform: scaleX(1); }
+            40% { transform: scaleX(1.25) skewY(6deg); border-left-color: rgba(255, 255, 255, 0.9); }
+            45% { transform: scaleX(0.85) skewY(-4deg); }
+            55% { transform: scaleX(1.05); }
+            65%, 100% { transform: scaleX(1); }
+        }
+
+        /* ==================== ส่วนหัวข้อและเมนู ==================== */
+        .header-title {
+            color: #ffffff;
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-subtitle {
+            color: #38bdf8; /* สีฟ้าสว่างไพรมารี่ */
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 25px;
+            letter-spacing: 4px;
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+        }
+
+        /* ==================== โซนรูปภาพไฮไลท์ ==================== */
+        .featured-image-card {
+            position: relative;
+            margin: 0 auto 30px auto;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.4s ease;
+            max-width: 100%;
+        }
+
+        .featured-image-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 40%;
+            background: linear-gradient(to top, rgba(15, 23, 42, 0.85), transparent);
+            pointer-events: none;
+        }
+
+        .featured-image {
+            width: 100%;
+            height: auto;
+            max-height: 380px;
+            object-fit: cover;
+            object-position: center 20%;
+            display: block;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .featured-image-card:hover {
+            border-color: rgba(234, 179, 8, 0.5); /* เปลี่ยนขอบเป็นสีทองตอนเมาส์ชี้ */
+            box-shadow: 0 20px 40px rgba(234, 179, 8, 0.15);
+        }
+
+        .featured-image-card:hover .featured-image {
+            transform: scale(1.04);
+        }
+
+        .image-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
+            color: #0f172a;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 2;
+        }
+
+        .menu-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 25px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 400;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* เอฟเฟกต์แสง Flash วิ่งผ่านปุ่ม (Shine Effect) */
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transition: 0.6s;
+        }
+
+        .menu-item:hover::before {
+            left: 150%;
+        }
+
+        /* เอฟเฟกต์เมื่อเมาส์ชี้ (Hover) เปลี่ยนเป็นสีทองหรูหรา */
+        .menu-item:hover {
+            background: linear-gradient(90deg, #eab308 0%, #fef08a 100%);
+            color: #0f172a;
+            transform: scale(1.02) translateX(4px);
+            box-shadow: 0 12px 24px rgba(234, 179, 8, 0.3);
+            border-color: transparent;
+            font-weight: 600;
+        }
+
+        /* ไอคอนลูกศร/ลูกบอลท้ายเมนู */
+        .menu-item::after {
+            content: '⚽';
+            font-size: 1.1rem;
+            opacity: 0.4;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover::after {
+            content: '➔';
+            opacity: 1;
+            transform: translateX(4px);
+        }
+
+        /* การรองรับบนหน้าจอมือถือ */
+        @media (max-width: 480px) {
+            .container { padding: 30px 20px; }
+            .header-title { font-size: 1.8rem; }
+            .header-subtitle { font-size: 0.9rem; margin-bottom: 20px; }
+            .featured-image-card { margin-bottom: 20px; }
+            .featured-image { max-height: 260px; }
+            .menu-item { padding: 16px 20px; font-size: 1rem; }
+            .soccer-ball { animation: ballShootMobile 3s infinite cubic-bezier(0.25, 1, 0.5, 1); }
+        }
+
+        /* ปรับระยะพุ่งของบอลไม่ให้ล้นจอมือถือ */
+        @keyframes ballShootMobile {
+            0% { transform: translateX(0) translateY(30px) rotate(0deg) scale(0.5); opacity: 0; }
+            10% { opacity: 1; }
+            40% { transform: translateX(270px) translateY(-15px) rotate(720deg) scale(1); }
+            45% { transform: translateX(250px) translateY(0px) rotate(760deg) scale(0.95); }
+            60% { transform: translateX(240px) translateY(45px) rotate(800deg) scale(0.9); opacity: 1; }
+            80%, 100% { transform: translateX(240px) translateY(45px) rotate(800deg) scale(0.9); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="soccer-animation">
+            <div class="soccer-ball">⚽</div>
+            <div class="goal-net"></div>
+        </div>
+
+        <h1 class="header-title">FIFA WORLD CUP 2026</h1>
+        <p class="header-subtitle">Results & Highlights</p>
+         
+        <div class="featured-image-card">
+            <div class="image-badge">เอม-ปากช่อง</div>
+            <img src="ฟุตบอล_1.jpg" alt="FIFA World Cup Highlight" class="featured-image">
+        </div>
+
+        <div class="menu-container">
+            <a href="Football_group_stage.html" target="_blank" class="menu-item">
+                1. ผลการแข่งขันรอบแบ่งกลุ่ม
+            </a>
+            <a href="Group_Standing.html" target="_blank" class="menu-item">
+                2. ตารางอันดับรอบแบ่งกลุ่ม
+            </a>
+            <a href="Football_knockout.html" target="_blank" class="menu-item">
+                3. ผลการแข่งขันรอบ Knockout
+            </a>
+            <a href="Standing_Arrange.html" target="_blank" class="menu-item">
+                4. สรุปทีมภาพรวม
+            </a>            
+        </div>
+    </div>
+
+</body>
+</html>
