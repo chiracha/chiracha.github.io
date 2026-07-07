@@ -261,8 +261,57 @@ body{
 }
 
 /* ==================== RESPONSIVE MEDIA QUERIES ==================== */
+/* [อัปเดตใหม่] รองรับหน้าจอเดสก์ท็อป และเจาะลึกเฉพาะขนาดหน้าจอ Notebook ทุกรูปแบบไซส์ */
 @media (min-width: 1025px) {
     .title h1 { font-size: 42px; }
+    
+    .bracket-wrapper {
+        overflow-x: hidden; /* ล็อคหน้าจอใหญ่ไม่ให้มีแถบเลื่อนแนวนอน */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    /* 1. สำหรับ Notebook หน้าจอขนาด 13.3 นิ้ว และ 14 นิ้ว (ความละเอียดส่วนใหญ่ 1366x768 ถึง 1440x900 หรือเปิด Scaling 150%) */
+    @media (min-width: 1025px) and (max-width: 1399px) {
+        .bracket-container {
+            zoom: 0.52; 
+            min-width: 2300px;
+        }
+    }
+
+    /* 2. สำหรับ Notebook หน้าจอขนาด 15.6 นิ้ว (ความละเอียด Full HD 1920x1080 ยอดนิยม ที่มักเปิด Windows Scaling ไว้ที่ 125%) */
+    @media (min-width: 1400px) and (max-width: 1599px) {
+        .bracket-container {
+            zoom: 0.63;
+            min-width: 2300px;
+        }
+    }
+
+    /* 3. สำหรับ Notebook หน้าจอขนาด 16 นิ้ว (สัดส่วนจอทำงานยุคใหม่ 16:10 ความละเอียดประมาณ 1920x1200 หรือ 2560x1600 พิกเซล) */
+    @media (min-width: 1600px) and (max-width: 1720px) {
+        .bracket-container {
+            zoom: 0.70;
+            min-width: 2300px;
+        }
+    }
+
+    /* 4. สำหรับ Notebook หน้าจอขนาดใหญ่พิเศษ 17.3 นิ้ว (หรือจอ PC Monitor ไซส์เริ่มต้น 21-24 นิ้ว) */
+    @media (min-width: 1721px) and (max-width: 2199px) {
+        .bracket-container {
+            zoom: 0.78;
+            min-width: 2300px;
+        }
+    }
+
+    /* 5. สำหรับหน้าจอที่มีความละเอียดสูงเป็นพิเศษ, จอเดสก์ท็อปขนาดใหญ่ หรือ Smart TV (2200px ขึ้นไป) */
+    @media (min-width: 2200px) {
+        .bracket-container {
+            zoom: 1;
+            min-width: 2300px;
+        }
+    }
 }
 
 @media (max-width: 1024px) {
@@ -493,7 +542,7 @@ body{
                 <div class="team-row"><div class="team-info"><span class="fi fi-cv"></span><span>Cape Verde</span></div><div class="score">2</div></div>
             </div>
             <div class="matchup">
-                <div class="team-row"><div class="team-info"><span class="fi fi-au"></span><span>Australia</span></div><div class="score">1 (2)</div></div>
+                <div class="team-row winner"><div class="team-info"><span class="fi fi-au"></span><span>Australia</span></div><div class="score">1 (2)</div></div>
                 <div class="team-row winner"><div class="team-info"><span class="fi fi-eg"></span><span>Egypt</span></div><div class="score">1 (4)</div></div>
             </div>
             <div class="matchup">
