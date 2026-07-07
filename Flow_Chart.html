@@ -201,14 +201,16 @@ body{
 }
 
 .champion-box {
-    background: linear-gradient(135deg, #FFD700, #FFA500);
+    /* background: linear-gradient(135deg, #FFD700, #FFA500); */
+    background: linear-gradient(135deg, #0f172a, #0f172a, #0f172a);
     border: 2px solid #FFF;
     transform: scale(1.15);
     box-shadow: 0 15px 35px rgba(255, 215, 0, 0.4);
     width: 100%;
 }
 .champion-box .team-row {
-    color: #222;
+    /* color: #222; */
+    color:gold;
     justify-content: center;
     font-size: 16px;
     padding: 16px;
@@ -265,7 +267,7 @@ body{
 /* ==================== RESPONSIVE MEDIA QUERIES ==================== */
 /* [อัปเดตใหม่] รองรับหน้าจอเดสก์ท็อป และเจาะลึกเฉพาะขนาดหน้าจอ Notebook ทุกรูปแบบไซส์ */
 @media (min-width: 1025px) {
-    .title h1 { font-size: 42px; }
+    .title h1 { font-size: 36px; }
     
     .bracket-wrapper {
         overflow-x: hidden; /* ล็อคหน้าจอใหญ่ไม่ให้มีแถบเลื่อนแนวนอน */
@@ -318,7 +320,7 @@ body{
 
 @media (max-width: 1024px) {
     body { padding: 20px 0; }
-    .bracket-toggle-container { display: flex; }
+    .bracket-toggle-container { display: flex; text-align: center;}
     .bracket-wrapper { overflow-x: hidden; }
     
     .bracket-container {
@@ -463,12 +465,24 @@ body{
                 <div class="team-row">
                     <div class="team-info">
                         <span class="fi fi-" style="width:34px; height:22px;"></span>
-                        <strong style="font-size: 16px; letter-spacing: 1px;">-</strong>
+                        <strong style="font-size: 16px; letter-spacing: 1px;"></strong>
                     </div>
                 </div>
             </div>
 
             <div style="color: #FFD700; font-weight: 700; font-size: 14px; letter-spacing: 2px;">THE FINAL</div>
+            <div class="matchup" style="width: 100%; border: 2px solid #FFD700;">
+                <div class="team-row">
+                    <div class="team-info"><span class="fi fi-"></span><span>-</span></div>
+                    <div class="score">-</div>
+                </div>
+                <div class="team-row">
+                    <div class="team-info"><span class="fi fi-"></span><span>-</span></div>
+                    <div class="score">-</div>
+                </div>
+            </div>
+
+            <div style="color: #FFD700; font-weight: 700; font-size: 14px; letter-spacing: 2px;">3rd place play-off</div>
             <div class="matchup" style="width: 100%; border: 2px solid #FFD700;">
                 <div class="team-row">
                     <div class="team-info"><span class="fi fi-"></span><span>-</span></div>
