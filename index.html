@@ -384,7 +384,7 @@
                 STADIUM ATTENDANCE<br>
                 <strong id="visitor-count">Loading...</strong> Views
                 
-                <script>
+                <script data-goatcounter="https://chiracha.goatcounter.com/count" async src="//gc.zgo.at/count.js"> 
                     window.addEventListener('DOMContentLoaded', (event) => {
                         var r = new XMLHttpRequest();
                         r.addEventListener('load', function() {
@@ -400,7 +400,7 @@
                         // r.open('GET', 'https://chiracha.goatcounter.com/counter//.json');
                         // r.open('GET', 'https://chiracha.goatcounter.com/count');
                         // r.open('GET', '"https://chiracha.goatcounter.com/count" async src="//gc.zgo.at/count.js"');//อันนี้ ok นะ
-                        r.open('GET', '"https://chiracha.goatcounter.com/counter//TOTAL.json" async src="//gc.zgo.at/count.js"');//อันนี้ ok กว่านะ
+                        r.open('GET', 'https://chiracha.goatcounter.com/counter//TOTAL.json');//อันนี้ ok กว่านะ
                         // r.open('GET', 'https://chiracha.goatcounter.com/counter//TOTAL.json');
                         r.send();
                     });
