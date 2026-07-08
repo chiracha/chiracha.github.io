@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบฟอร์มข้อมูลพนักงาน (แก้ไขปัญหาปุ่ม PDF ค้าง)</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Sarabun', sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f9;
+            padding: 30px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 26px;
+            font-weight: 600;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        th {
+            background-color: #4A90E2;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        td {
+            text-align: center;
+        }
+
+        input[type="text"], input[type="tel"] {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+            font-size: 16px;
+            transition: border 0.2s;
+            text-align: inherit;
+        }
+
+        input[type="text"]:focus, input[type="tel"]:focus {
+            border-color: #4A90E2;
+        }
+
+        /* ตกแต่งแถวตารางตอนพิมพ์รายงาน */
+        .text-left {
+            text-align: left;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-weight: 500;
+        }
+
+        .btn-add {
+            background-color: #2ECC71;
+            color: white;
+        }
+
+        .btn-add:hover {
+            background-color: #27AE60;
+        }
+
+        .btn-pdf {
+            background-color: #E74C3C;
+            color: white;
+        }
+
+        .btn-pdf:hover {
+            background-color: #C0392B;
+        }
+
+        .btn-delete {
+            background-color: #ff4d4d;
+            color: white;
+            padding: 6px 12px;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+
+        .btn-delete:hover {
+            background-color: #cc0000;
+        }
+
+        /* สไตล์พิเศษซ่อนปุ่มและช่องกรอกตอนแปลงเป็น PDF เพื่อความสะอาดของเอกสาร */
+        .pdf-preview input {
+            border: none !important;
+            background: transparent !important;
+            padding: 0 !important;
+            outline: none !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="reportArea">
+    <h2>📝 ฟอร์มบันทึกข้อมูลพนักงาน</h2>
+    
+    <div class="table-responsive">
+        <table id="employeeTable">
+            <thead>
+                <tr>
+                    <th style="width: 8%;">ที่</th>
+                    <th style="width: 22%;">รหัสพนักงาน</th>
+                    <th style="width: 35%;">ชื่อ-นามสกุล</th>
+                    <th style="width: 20%;">เบอร์โทร</th>
+                    <th style="width: 15%;" class="no-print">จัดการ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="row-number">1</td>
+                    <td><input type="text" class="emp-id" placeholder="เช่น EMP001"></td>
+                    <td class="text-left"><input type="text" class="emp-name" placeholder="นาย สมชาย สายลุย"></td>
+                    <td><input type="tel" class="emp-phone" placeholder="0812345678"></td>
+                    <td class="no-print"><button type="button" class="btn-delete" onclick="deleteRow(this)">ลบ</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="btn-group no-print">
+        <button type="button" class="btn-add" onclick="addRow()">➕ เพิ่มแถวข้อมูล</button>
+        <button type="button" class="btn-pdf" onclick="generatePDF()">📕 ส่งออกเป็น PDF (ภาษาไทย)</button>
+    </div>
+</div>
+
+<script>
+    function addRow() {
+        const table = document.getElementById("employeeTable").getElementsByTagName('tbody')[0];
+        const rowCount = table.rows.length;
+        const row = table.insertRow(rowCount);
+
+        const cell1 = row.insertCell(0);
+        const cell2 = row.insertCell(1);
+        const cell3 = row.insertCell(2);
+        const cell4 = row.insertCell(3);
+        const cell5 = row.insertCell(4);
+
+        cell1.className = "row-number";
+        cell1.innerHTML = rowCount + 1;
+        cell2.innerHTML = '<input type="text" class="emp-id" placeholder="รหัสพนักงาน">';
+        cell3.innerHTML = '<input type="text" class="emp-name" placeholder="ชื่อ-นามสกุล">';
+        cell3.className = "text-left";
+        cell4.innerHTML = '<input type="tel" class="emp-phone" placeholder="เบอร์โทร">';
+        cell5.innerHTML = '<button type="button" class="btn-delete" onclick="deleteRow(this)">ลบ</button>';
+        cell5.className = "no-print";
+        
+        updateRowNumbers();
+    }
+
+    function deleteRow(button) {
+        const table = document.getElementById("employeeTable").getElementsByTagName('tbody')[0];
+        if (table.rows.length > 1) {
+            const row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+            updateRowNumbers();
+        } else {
+            alert("ต้องมีข้อมูลอย่างน้อย 1 แถวครับ");
+        }
+    }
+
+    function updateRowNumbers() {
+        const rows = document.querySelectorAll(".row-number");
+        rows.forEach((row, index) => {
+            row.innerText = index + 1;
+        });
+    }
+
+    function generatePDF() {
+        // ดึงกล่องตารางรายงานทั้งหมด
+        const element = document.getElementById('reportArea');
+        
+        // ใส่ Class พิเศษชั่วคราวเพื่อซ่อนขอบกล่อง Input และปุ่มกดต่างๆ ในไฟล์ PDF
+        element.classList.add('pdf-preview');
+        const noPrintElements = document.querySelectorAll('.no-print');
+        noPrintElements.forEach(el => el.style.display = 'none');
+
+        // ตั้งค่าตัวเลือก PDF
+        const opt = {
+            margin:       15,
+            filename:     'รายงานข้อมูลพนักงาน.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true }, // scale: 2 เพิ่มความคมชัดระดับ HD
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        // สั่งสร้างเอกสาร PDF จากตัวตาราง HTML หน้าจอ
+        html2pdf().set(opt).from(element).save().then(() => {
+            // เมื่อดาวน์โหลดเสร็จแล้ว คืนค่าหน้าเว็บบนเบราว์เซอร์ให้กลับมาพิมพ์งานต่อได้ตามปกติ
+            element.classList.remove('pdf-preview');
+            noPrintElements.forEach(el => el.style.display = '');
+        }).catch(err => {
+            alert("เกิดข้อผิดพลาดในการส่งออกไฟล์: " + err.message);
+            element.classList.remove('pdf-preview');
+            noPrintElements.forEach(el => el.style.display = '');
+        });
+    }
+</script>
+
+</body>
+</html>
