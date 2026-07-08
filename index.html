@@ -177,7 +177,7 @@
             position: absolute;
             top: 15px;
             left: 15px;
-            background: linear-gradient(135deg, darkblue 0%, darkblue 100%);
+            background: linear-gradient(135deg, darkgreen 0%, darkgreen 100%);
             padding: 6px 14px;
             border-radius: 10px;
             font-size: 0.85rem;
@@ -185,6 +185,8 @@
             letter-spacing: 1px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             z-index: 2;
+
+            color:white;
         }
 
         .menu-container {
@@ -356,6 +358,7 @@
         <!-- <p style="color:white; margin-top: -25px;color:#eab308">(Thank you JAS & Mono for Highlights)</p> -->
          
         <div class="featured-image-card">
+            <div class="image-badge">AI-Generated</div>
             <img src="ฟุตบอล_1.jpg" alt="FIFA World Cup Highlight" class="featured-image">
         </div>
 
@@ -398,10 +401,7 @@
                             }
                         });
                         // ยิงคำขอเรียกดูสถิติรวมจากแดชบอร์ด chiracha
-                        // r.open('GET', 'https://chiracha.goatcounter.com/counter//.json');
-                        // r.open('GET', 'https://chiracha.goatcounter.com/count');
-                        // r.open('GET', '"https://chiracha.goatcounter.com/count" async src="//gc.zgo.at/count.js"');//อันนี้ ok นะ
-                        r.open('GET', 'https://chiracha.goatcounter.com/counter/TOTAL.json');//อันนี้ ok กว่านะ
+                        r.open('GET', 'https://chiracha.goatcounter.com/counter/TOTAL.json');
                         
                         r.send();
                     });
