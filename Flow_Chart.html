@@ -75,7 +75,8 @@ body{
 }
 
 .tab-input {
-    display: none;
+    display: none; /*ok*/
+    
 }
 
 /* --- Wrapper สำหรับควบคุมการลื่นไหลแนวนอนบนจอใหญ่ --- */
@@ -114,10 +115,14 @@ body{
     text-transform: uppercase;
     letter-spacing: 1px;
     font-size: 14px;
-    position: absolute;
-    top: -40px;
+    /* position: absolute;  */  /*gemini บอกให้ลบออก*/
+    /* top: -40px;  */ /*gemini บอกให้ลบออก*/
     width: 100%;
     text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+
+    /* gemini บอกให้เพิ่ม 2 บรรทัดนี้แทน */
+    margin-bottom: 20px; 
+    padding-top: 10px;
 }
 
 /* กล่องการแข่งขันแต่ละคู่ (Matchup) */
@@ -153,7 +158,8 @@ body{
 }
 
 .team-row:last-child {
-    border-bottom: none;
+    border-bottom: none; /*ok*/
+   
 }
 
 /* สไตล์เมื่อทีมชนะก้าวเข้าสู่รอบถัดไป */
@@ -280,7 +286,7 @@ body{
     .title h1 { font-size: 36px; }
     
     .bracket-wrapper {
-        overflow-x: hidden; /* ล็อคหน้าจอใหญ่ไม่ให้มีแถบเลื่อนแนวนอน */
+        overflow-x: hidden; /*ล็อคหน้าจอใหญ่ไม่ให้มีแถบเลื่อนแนวนอน*/
         display: flex;
         justify-content: center;
         align-items: center;
@@ -347,7 +353,7 @@ body{
         max-width: 450px;
         height: auto;
         gap: 20px;
-        display: none; /* ซ่อนไว้ก่อนเพื่อสลับแสดงผลตาม Tab */
+        display: none; /*ซ่อนไว้ก่อนเพื่อสลับแสดงผลตาม Tab : ok*/
         padding-top: 30px;
     }
 
