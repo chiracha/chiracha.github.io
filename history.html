@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIFA World Cup Champions Statistics</title>
+    <!-- Import Google Fonts and Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --pitch-green: #0a3d1a;
+            --grass-light: #165b29;
+            --gold: #d4af37;
+            --gold-glow: #f3e5ab;
+            --dark-bg: #0b130e;
+            --card-bg: rgba(18, 38, 25, 0.85);
+            --text-light: #f5f6f5;
+            --text-muted: #a2b3a8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        body {
+            /* background: linear-gradient(135deg, var(--dark-bg) 0%, var(--pitch-green) 100%); */
+            background: linear-gradient(135deg, #0f172a, #0f172a, #0f172a);
+            background-attachment: fixed;
+            color: var(--text-light);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Football pitch line visual effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.03) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            z-index: 1;
+        }
+
+        /* Header Zone */
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        header h1 span {
+            color: var(--gold);
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Continent Stats Dashboard */
+        .continent-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .continent-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .continent-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+        }
+
+        .continent-icon {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .continent-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 0.2rem;
+        }
+
+        .continent-count {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .continent-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title i {
+            color: var(--gold);
+        }
+
+        /* Champions Grid */
+        .champions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .team-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            display: flex;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+        }
+
+        .team-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+            border-color: rgba(212, 175, 55, 0.4);
+        }
+
+        /* Sidebar continent colors */
+        .team-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+        }
+        .team-card.europe::before { background-color: #3498db; }
+        .team-card.south-america::before { background-color: #2ecc71; }
+
+        .flag-container {
+            width: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+        }
+
+        .flag-img {
+            width: 100%;
+            aspect-ratio: 3/2;
+            object-fit: cover;
+            border-radius: 6px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .info-container {
+            padding: 1.2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .team-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .team-continent {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            background: rgba(255,255,255,0.08);
+            padding: 0.1rem 0.5rem;
+            border-radius: 20px;
+            margin-top: 0.2rem;
+            display: inline-block;
+        }
+
+        .trophy-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--gold);
+            padding: 0.3rem 0.6rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .years-list {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .winning-year {
+            color: var(--text-light);
+            font-weight: 500;
+            display: block;
+            margin-top: 0.2rem;
+        }
+
+        .host-info {
+            font-size: 0.75rem;
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2rem; }
+            .continent-dashboard { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>FIFA World Cup <span>Statistics</span></h1>
+            <p>Historical record of the ultimate football champions since 1930</p>
+        </header>
+
+        <!-- Continent Stats Dashboard Section -->
+        <div class="section-title">
+            <i class="fa-solid fa-chart-pie"></i> Titles by Continent
+        </div>
+        <div class="continent-dashboard" id="continentDashboard">
+            <!-- Rendered by JavaScript -->
+        </div>
+
+        <!-- Champions Grid Section -->
+        <div class="section-title">
+            <i class="fa-solid fa-trophy"></i> World Cup Champions (Ranked by Titles)
+        </div>
+        <div class="champions-grid" id="championsGrid">
+            <!-- Rendered by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Comprehensive World Cup data including winning years and host nations
+        const championsData = [
+            {
+                name: "Brazil",
+                continent: "South America",
+                continentKey: "south-america",
+                titles: 5,
+                winningEditions: [
+                    { year: 1958, host: "Sweden" },
+                    { year: 1962, host: "Chile" },
+                    { year: 1970, host: "Mexico" },
+                    { year: 1994, host: "United States" },
+                    { year: 2002, host: "South Korea & Japan" }
+                ],
+                flag: "https://flagcdn.com/w160/br.png"
+            },
+            {
+                name: "Germany",
+                continent: "Europe",
+                continentKey: "europe",
+                titles: 4,
+                winningEditions: [
+                    { year: 1954, host: "Switzerland" },
+                    { year: 1974, host: "West Germany" },
+                    { year: 1990, host: "Italy" },
+                    { year: 2014, host: "Brazil" }
+                ], // Includes West Germany eras
+                flag: "https://flagcdn.com/w160/de.png"
+            },
+            {
+                name: "Italy",
+                continent: "Europe",
+                continentKey: "europe",
+                titles: 4,
+                winningEditions: [
+                    { year: 1934, host: "Italy" },
+                    { year: 1938, host: "France" },
+                    { year: 1982, host: "Spain" },
+                    { year: 2006, host: "Germany" }
+                ],
+                flag: "https://flagcdn.com/w160/it.png"
+            },
+            {
+                name: "Argentina",
+                continent: "South America",
+                continentKey: "south-america",
+                titles: 3,
+                winningEditions: [
+                    { year: 1978, host: "Argentina" },
+                    { year: 1986, host: "Mexico" },
+                    { year: 2022, host: "Qatar" }
+                ],
+                flag: "https://flagcdn.com/w160/ar.png"
+            },
+            {
+                name: "France",
+                continent: "Europe",
+                continentKey: "europe",
+                titles: 2,
+                winningEditions: [
+                    { year: 1998, host: "France" },
+                    { year: 2018, host: "Russia" }
+                ],
+                flag: "https://flagcdn.com/w160/fr.png"
+            },
+            {
+                name: "Uruguay",
+                continent: "South America",
+                continentKey: "south-america",
+                titles: 2,
+                winningEditions: [
+                    { year: 1930, host: "Uruguay" },
+                    { year: 1950, host: "Brazil" }
+                ],
+                flag: "https://flagcdn.com/w160/uy.png"
+            },
+            {
+                name: "England",
+                continent: "Europe",
+                continentKey: "europe",
+                titles: 1,
+                winningEditions: [
+                    { year: 1966, host: "England" }
+                ],
+                flag: "https://flagcdn.com/w160/gb-eng.png"
+            },
+            {
+                name: "Spain",
+                continent: "Europe",
+                continentKey: "europe",
+                titles: 1,
+                winningEditions: [
+                    { year: 2010, host: "South Africa" }
+                ],
+                flag: "https://flagcdn.com/w160/es.png"
+            }
+        ];
+
+        // Function to calculate title stats by continent
+        function calculateContinentStats(data) {
+            const stats = {};
+            data.forEach(team => {
+                if (stats[team.continent]) {
+                    stats[team.continent] += team.titles;
+                } else {
+                    stats[team.continent] = team.titles;
+                }
+            });
+            return stats;
+        }
+
+        // Function to render the entire dashboard
+        function renderDashboard() {
+            const grid = document.getElementById('championsGrid');
+            const dashboard = document.getElementById('continentDashboard');
+            
+            // 1. Render Continent Dashboard
+            const continentStats = calculateContinentStats(championsData);
+            
+            const continentIcons = {
+                "Europe": "fa-solid fa-earth-europe",
+                "South America": "fa-solid fa-earth-americas"
+            };
+
+            for (const [continent, count] of Object.entries(continentStats)) {
+                const icon = continentIcons[continent] || "fa-solid fa-earth-asia";
+                dashboard.innerHTML += `
+                    <div class="continent-card">
+                        <div class="continent-icon"><i class="${icon}"></i></div>
+                        <div class="continent-name">${continent}</div>
+                        <div class="continent-count">${count}</div>
+                        <div class="continent-label">Total Titles</div>
+                    </div>
+                `;
+            }
+
+            // 2. Render Team Cards with Host Details
+            championsData.forEach(team => {
+                // Construct structured text for years and hosts
+                const editionsHTML = team.winningEditions.map(ed => 
+                    `<span class="winning-year">${ed.year} <span class="host-info">(Host: ${ed.host})</span></span>`
+                ).join('');
+                
+                grid.innerHTML += `
+                    <div class="team-card ${team.continentKey}">
+                        <div class="flag-container">
+                            <img src="${team.flag}" alt="${team.name} Flag" class="flag-img" loading="lazy">
+                        </div>
+                        <div class="info-container">
+                            <div class="team-header">
+                                <div>
+                                    <h3 class="team-name">${team.name}</h3>
+                                    <span class="team-continent">${team.continent}</span>
+                                </div>
+                                <div class="trophy-badge">
+                                    <i class="fa-solid fa-trophy"></i> ${team.titles}
+                                </div>
+                            </div>
+                            <div class="years-list">
+                                Winning Years:
+                                ${edHTML = editionsHTML}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Execute rendering once DOM content is fully loaded
+        window.addEventListener('DOMContentLoaded', renderDashboard);
+    </script>
+</body>
+</html>
