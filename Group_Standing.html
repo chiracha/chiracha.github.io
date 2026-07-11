@@ -17,28 +17,18 @@
 }
 
 body{
-    /* background:linear-gradient(135deg,#021B79,#0575E6,#00C9FF); */
     min-height:100vh;
     display:flex;
     justify-content:center;
-    align-items:flex-start; /*เปลี่ยนเป็นห่างจากด้านบนเล็กน้อยเพื่อรองรับเนื้อหาที่ยาวขึ้น*/
+    align-items:flex-start; 
     padding:40px 20px;
-
-
-            /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
-            /* background-color: var(--bg-color); */
-            /* color: var(--text-color);
-            margin: 0;
-            padding: 20px; */
-
-            background-color:#0f172a;
-
-
+    background-color:#0f172a;
 }
 
 .container{
-    width:1200px;
+    width: 1400px; /* เพิ่มความกว้างสูงสุดเพื่อให้แสดงผลบน Smart TV ได้เต็มตาสวยงามขึ้น */
     max-width:100%;
+    margin: 0 auto;
 }
 
 .title{
@@ -142,6 +132,7 @@ input[type="radio"] {
     box-shadow:0 100px 1000px rgba(0,0,0,.35);
     border:3px solid rgba(255,255,255,.2);
     animation: fadeIn 0.4s ease-in-out;
+    width: 100%;
 }
 
 @keyframes fadeIn {
@@ -149,13 +140,19 @@ input[type="radio"] {
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* ปรับปรุง container ย่อยในส่วนตารางให้ทำรองรับการเลื่อนบนมือถือได้ลื่นไหล */
+.group-content {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 table{
     width:100%;
     border-collapse:collapse;
+    min-width: 650px; /* ช่วยคงรูปขนาดตารางบนมือถือไม่ให้บีบจนตัวเลขอ่านไม่ออก */
 }
 
 thead{
-    /* background:rgba(255,255,255,.18); */
     background-color: darkblue;
 }
 
@@ -188,6 +185,7 @@ tbody td{
     align-items:center;
     gap:14px;
     font-weight:600;
+    text-align: left; /* จัดตำแหน่งชื่อประเทศให้อยู่ฝั่งซ้ายดูเป็นระเบียบ */
 }
 
 .flag{
@@ -200,20 +198,6 @@ tbody td{
     display: inline-block;
     flex-shrink: 0;
 }
-
-/* รายชื่อธงชาติประเทศกลุ่มตัวอย่าง (คุณสามารถเพิ่มหรือแก้ไขเพิ่มเติมในภายหลังได้) */
-/* .flag-ar { background-image: url('https://flagcdn.com/w80/ar.png'); }
-.flag-nl { background-image: url('https://flagcdn.com/w80/nl.png'); }
-.flag-jp { background-image: url('https://flagcdn.com/w80/jp.png'); }
-.flag-gh { background-image: url('https://flagcdn.com/w80/gh.png'); }
-.flag-br { background-image: url('https://flagcdn.com/w80/br.png'); }
-.flag-fr { background-image: url('https://flagcdn.com/w80/fr.png'); }
-.flag-en { background-image: url('https://flagcdn.com/w80/gb-eng.png'); }
-.flag-de { background-image: url('https://flagcdn.com/w80/de.png'); }
-.flag-es { background-image: url('https://flagcdn.com/w80/es.png'); }
-.flag-it { background-image: url('https://flagcdn.com/w80/it.png'); }
-.flag-us { background-image: url('https://flagcdn.com/w80/us.png'); }
-.flag-mx { background-image: url('https://flagcdn.com/w80/mx.png'); } */
 
 .rank{
     width:42px;
@@ -237,22 +221,45 @@ tbody td{
     color:#FFD700;
 }
 
+/* ===================================================
+   📱 Responsive สำหรับหน้าจอ Mobile & Tablet (iPad)
+=================================================== */
 @media(max-width:900px){
-    table{
-        display:block;
-        overflow-x:auto;
+    body {
+        padding: 20px 10px;
     }
     .title h1{
         font-size:30px;
     }
     .tabs-nav {
         padding: 8px;
+        gap: 6px;
     }
     .tabs-nav label {
         padding: 6px 12px;
         font-size: 12px;
+        flex-grow: 1; /* ช่วยกระจายปุ่มให้สมดุลบนหน้าจอแท็บเล็ต */
+        text-align: center;
+    }
+    thead th, tbody td {
+        padding: 12px 10px; /* ลด padding เพื่อให้กระชับขึ้นบนจอเล็ก */
+        font-size: 14px;
+    }
+    .points {
+        font-size: 18px;
     }
 }
+
+@media(max-width:480px){
+    .title h1{
+        font-size:24px;
+    }
+    .tabs-nav label {
+        padding: 6px 8px;
+        font-size: 11px;
+    }
+}
+
 </style>
 </head>
 
@@ -417,7 +424,6 @@ tbody td{
                 <tr><td><div class="country"><span class="fi fi-dz"></span>Algeria</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>5</td><td>7</td><td>-2</td><td class="points">4</td></tr>
                 <tr><td><div class="country"><span class="fi fi-jo"></span>Jordan</div></td><td>3</td><td>0</td><td>0</td><td>3</td><td>3</td><td>8</td><td>-5</td><td class="points">0</td></tr>
             </tbody>
-        </table>
         </table>
     </div>
 
