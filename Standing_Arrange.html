@@ -3,13 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>World Cup 2026 Standings - 12 Groups</title>
+<title>World Cup 2026 Standings - Tournament Summary</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"/>
 
 <style>
-
 *{
     margin:0;
     padding:0;
@@ -18,31 +17,21 @@
 }
 
 body{
-    /* background:linear-gradient(135deg,#021B79,#0575E6,#00C9FF); */
     min-height:100vh;
     display:flex;
     justify-content:center;
-    align-items:flex-start; /*เปลี่ยนเป็นห่างจากด้านบนเล็กน้อยเพื่อรองรับเนื้อหาที่ยาวขึ้น*/
+    align-items:flex-start; 
     padding:40px 20px;
-
-
-            /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
-            /* background-color: var(--bg-color); */
-            /* color: var(--text-color);
-            margin: 0;
-            padding: 20px; */
-
-            background-color:#0f172a;
-
-
+    background-color:#0f172a;
 }
 
 .container{
-    width:1200px;
+    width:1400px; /* ขยายความกว้างสูงสุดเพื่อให้แสดงผลบน Smart TV จอกว้างได้สวยงามเต็มตามากขึ้น */
     max-width:100%;
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    margin: 0 auto;
 }
 
 .title{
@@ -63,88 +52,37 @@ body{
 }
 
 /* --- ระบบแท็บเลือกกลุ่ม (Tabs System) --- */
-.tabs-nav {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 25px;
-    background: rgba(255, 255, 255, 0.08);
-    padding: 12px;
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.tabs-nav label {
-    padding: 8px 16px;
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    font-weight: 600;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    user-select: none;
-    font-size: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.tabs-nav label:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: translateY(-2px);
-}
-
-/* ซ่อน Radio Input */
 input[type="radio"] {
     display: none;
 }
 
-/* ซ่อนเนื้อหาทุกกลุ่มไว้ก่อน */
 .group-content {
     display: none;
 }
 
-/* ควบคุมการแสดงผลตามกลุ่มที่ถูก Check (เลือกแท็บ) */
-#tab-a:checked ~ .tabs-nav label[for="tab-a"],
-#tab-b:checked ~ .tabs-nav label[for="tab-b"],
-#tab-c:checked ~ .tabs-nav label[for="tab-c"],
-#tab-d:checked ~ .tabs-nav label[for="tab-d"],
-#tab-e:checked ~ .tabs-nav label[for="tab-e"],
-#tab-f:checked ~ .tabs-nav label[for="tab-f"],
-#tab-g:checked ~ .tabs-nav label[for="tab-g"],
-#tab-h:checked ~ .tabs-nav label[for="tab-h"],
-#tab-i:checked ~ .tabs-nav label[for="tab-i"],
-#tab-j:checked ~ .tabs-nav label[for="tab-j"],
-#tab-k:checked ~ .tabs-nav label[for="tab-k"],
-#tab-l:checked ~ .tabs-nav label[for="tab-l"] {
-    background: #FFD700;
-    color: #021B79;
-    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
-}
-
-#tab-a:checked ~ .group-content-a,
-#tab-b:checked ~ .group-content-b,
-#tab-c:checked ~ .group-content-c,
-#tab-d:checked ~ .group-content-d,
-#tab-e:checked ~ .group-content-e,
-#tab-f:checked ~ .group-content-f,
-#tab-g:checked ~ .group-content-g,
-#tab-h:checked ~ .group-content-h,
-#tab-i:checked ~ .group-content-i,
-#tab-j:checked ~ .group-content-j,
-#tab-k:checked ~ .group-content-k,
-#tab-l:checked ~ .group-content-l {
+#tab-a:checked ~ .group-content-a {
     display: block;
 }
 
 /* --- การตกแต่งตารางและสไตล์การ์ดหลัก --- */
+.card-wrapper {
+    width: 100%;
+    overflow-x: auto; /* เปิดใช้งานการ Scroll แนวนอนสำหรับอุปกรณ์ขนาดเล็ก เช่น Mobile */
+    -webkit-overflow-scrolling: touch;
+    background: rgba(255,255,255,.12);
+    backdrop-filter: blur(18px);
+    border-radius: 10px;
+    box-shadow: 0 100px 1000px rgba(0,0,0,.35);
+    border: 3px solid rgba(255,255,255,.2);
+    margin-top: 30px;
+}
+
+.card-wrapper:first-of-type {
+    margin-top: 0;
+}
+
 .card{
-    background:rgba(255,255,255,.12);
-    backdrop-filter:blur(18px);
-    border-radius:10px;
-    overflow:hidden;
-    box-shadow:0 100px 1000px rgba(0,0,0,.35);
-    border:3px solid rgba(255,255,255,.2);
+    width: 100%;
     animation: fadeIn 0.4s ease-in-out;
 }
 
@@ -156,22 +94,26 @@ input[type="radio"] {
 table{
     width:100%;
     border-collapse:collapse;
+    min-width: 750px; /* ป้องกันไม่ให้โครงสร้างตารางและตัวเลขสถิติบีบตัวจนอ่านไม่ออกบนมือถือ */
 }
 
 thead{
-    /* background:rgba(255,255,255,.18); */
     background-color: darkblue;
 }
 
 thead th{
     color:white;
     padding:18px;
-    font-size:12px;
-    /* text-transform:uppercase; */
-    /* letter-spacing:1px; */
-    
+    font-size:14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 } 
 
+/* ปรับตำแหน่งหัวข้อหลักของตาราง (คอลัมน์แรก) ให้อยู่ฝั่งซ้ายเพื่อให้สมดุลกับชื่อประเทศ */
+thead th:first-child {
+    text-align: left;
+    padding-left: 25px;
+}
 
 tbody tr{
     transition:.35s;
@@ -179,7 +121,7 @@ tbody tr{
 
 tbody tr:hover{
     background:rgba(255,255,255,.15);
-    transform:scale(1.005);
+    transform:scale(1.002);
 }
 
 tbody td{
@@ -187,6 +129,11 @@ tbody td{
     padding:18px;
     text-align:center;
     border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+tbody td:first-child {
+    text-align: left;
+    padding-left: 25px;
 }
 
 .country{
@@ -207,31 +154,6 @@ tbody td{
     flex-shrink: 0;
 }
 
-/* รายชื่อธงชาติประเทศกลุ่มตัวอย่าง (คุณสามารถเพิ่มหรือแก้ไขเพิ่มเติมในภายหลังได้) */
-/* .flag-ar { background-image: url('https://flagcdn.com/w80/ar.png'); }
-.flag-nl { background-image: url('https://flagcdn.com/w80/nl.png'); }
-.flag-jp { background-image: url('https://flagcdn.com/w80/jp.png'); }
-.flag-gh { background-image: url('https://flagcdn.com/w80/gh.png'); }
-.flag-br { background-image: url('https://flagcdn.com/w80/br.png'); }
-.flag-fr { background-image: url('https://flagcdn.com/w80/fr.png'); }
-.flag-en { background-image: url('https://flagcdn.com/w80/gb-eng.png'); }
-.flag-de { background-image: url('https://flagcdn.com/w80/de.png'); }
-.flag-es { background-image: url('https://flagcdn.com/w80/es.png'); }
-.flag-it { background-image: url('https://flagcdn.com/w80/it.png'); }
-.flag-us { background-image: url('https://flagcdn.com/w80/us.png'); }
-.flag-mx { background-image: url('https://flagcdn.com/w80/mx.png'); } */
-
-/* .rank{
-    width:42px;
-    height:42px;
-    border-radius:50%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-weight:bold;
-    margin:auto;
-} */
-
 .gold{ background:#FFD700; color:#222; }
 .green{ background:#2ECC71; color: white; }
 .gray{ background:#7F8C8D; color: white; }
@@ -243,20 +165,57 @@ tbody td{
     color:#FFD700;
 }
 
-@media(max-width:900px){
-    table{
-        display:block;
-        overflow-x:auto;
+/* ===================================================
+   📱 Responsive สำหรับหน้าจอ Mobile, IPad & Smart TV
+=================================================== */
+
+/* สำหรับ iPad และหน้าจอขนาดกลาง (แท็บเล็ต) */
+@media(max-width: 1024px){
+    body {
+        padding: 30px 15px;
     }
     .title h1{
-        font-size:30px;
+        font-size: 36px;
     }
-    .tabs-nav {
-        padding: 8px;
+    thead th, tbody td {
+        padding: 14px 12px;
+        font-size: 13px;
     }
-    .tabs-nav label {
-        padding: 6px 12px;
-        font-size: 12px;
+    .points {
+        font-size: 18px;
+    }
+}
+
+/* สำหรับ Mobile (มือถือทุกรุ่น ทั้งแนวตั้งและแนวนอน) */
+@media(max-width: 480px){
+    body {
+        padding: 20px 10px;
+    }
+    .title h1{
+        font-size: 26px;
+        letter-spacing: 1px;
+    }
+    .title p {
+        font-size: 14px;
+    }
+    thead th, tbody td {
+        padding: 12px 10px;
+    }
+}
+
+/* สำหรับ Smart TV หรือหน้าจอความละเอียดสูงขนาดใหญ่ (Ultra-wide / 4K จอใหญ่กว่าปกติ) */
+@media(min-width: 1920px) {
+    .container {
+        width: 1600px; /* ขยายขอบเขตตารางให้เต็มตาบนหน้าจอทีวีขนาดใหญ่ */
+    }
+    .title h1 {
+        font-size: 52px;
+    }
+    thead th {
+        font-size: 16px;
+    }
+    tbody td {
+        font-size: 15px;
     }
 }
 </style>
@@ -267,192 +226,192 @@ tbody td{
 <div class="container">
     <div class="title">
         <h1>🏆 FIFA WORLD CUP 2026</h1>
-        <!-- <p>GROUP STANDINGS</p> -->
+        <p>TOURNAMENT SUMMARY STANDINGS</p>
     </div>
 
+    <!-- Active Tab Selection Control -->
     <input type="radio" id="tab-a" name="group-tabs" checked>
-    <input type="radio" id="tab-b" name="group-tabs">
-    <input type="radio" id="tab-c" name="group-tabs">
-    <input type="radio" id="tab-d" name="group-tabs">
-    <input type="radio" id="tab-e" name="group-tabs">
-    <input type="radio" id="tab-f" name="group-tabs">
-    <input type="radio" id="tab-g" name="group-tabs">
-    <input type="radio" id="tab-h" name="group-tabs">
-    <input type="radio" id="tab-i" name="group-tabs">
-    <input type="radio" id="tab-j" name="group-tabs">
-    <input type="radio" id="tab-k" name="group-tabs">
-    <input type="radio" id="tab-l" name="group-tabs">
 
-    <!-- <div class="tabs-nav">
-        <label for="tab-a">Group A</label>
-        <label for="tab-b">Group B</label>
-        <label for="tab-c">Group C</label>
-        <label for="tab-d">Group D</label>
-        <label for="tab-e">Group E</label>
-        <label for="tab-f">Group F</label>
-        <label for="tab-g">Group G</label>
-        <label for="tab-h">Group H</label>
-        <label for="tab-i">Group I</label>
-        <label for="tab-j">Group J</label>
-        <label for="tab-k">Group K</label>
-        <label for="tab-l">Group L</label>
-    </div> -->
+    <div class="group-content group-content-a">
+        
+        <!-- 1st Place Teams -->
+        <div class="card-wrapper">
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr><th>Qualified for Round of 32 (Group Winners)</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><div class="country"><span class="fi fi-fr"></span>France</div></td><td>3</td><td>3</td><td>0</td><td>0</td><td>10</td><td>2</td><td>+8</td><td class="points">9</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-ar"></span>Argentina</div></td><td>3</td><td>3</td><td>0</td><td>0</td><td>8</td><td>1</td><td>+7</td><td class="points">9</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-mx"></span>Mexico</div></td><td>3</td><td>3</td><td>0</td><td>0</td><td>6</td><td>0</td><td>+6</td><td class="points">9</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-nl"></span>Netherlands</div></td><td>3</td><td>2</td><td>1</td><td>0</td><td>10</td><td>4</td><td>+6</td><td class="points">7</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-br"></span>Brazil</div></td><td>3</td><td>2</td><td>1</td><td>0</td><td>7</td><td>1</td><td>+6</td><td class="points">7</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-es"></span>Spain</div></td><td>3</td><td>2</td><td>1</td><td>0</td><td>5</td><td>0</td><td>+5</td><td class="points">7</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-ch"></span>Switzerland</div></td><td>3</td><td>2</td><td>1</td><td>0</td><td>7</td><td>3</td><td>+4</td><td class="points">7</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-gb-eng"></span>England</div></td><td>3</td><td>2</td><td>1</td><td>0</td><td>6</td><td>2</td><td>+4</td><td class="points">7</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-co"></span>Colombia</div></td><td>3</td><td>2</td><td>1</td><td>0</td><td>4</td><td>1</td><td>+3</td><td class="points">7</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-de"></span>Germany</div></td><td>3</td><td>2</td><td>0</td><td>1</td><td>10</td><td>4</td><td>+6</td><td class="points">6</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-us"></span>USA</div></td><td>3</td><td>2</td><td>0</td><td>1</td><td>8</td><td>4</td><td>+4</td><td class="points">6</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-be"></span>Belgium</div></td><td>3</td><td>1</td><td>2</td><td>0</td><td>6</td><td>2</td><td>+4</td><td class="points">5</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <div class="card group-content group-content-a">
-        <table>
-            <thead>
-                <tr><th>ทีมที่เข้ารอบ 32 ทีม(อันดับที่ 1 ของกลุ่ม)</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
-            </thead>
-            <tbody>
-                <tr><td><div class="country"><span class="fi fi-fr"></span>France</div></td><td>3</td><td>3</td><td>0</td><td>0</td><td>10</td><td>2</td><td>+8</td><td class="points">9</td></tr>
-                <tr><td><div class="country"><span class="fi fi-ar"></span>Argentina</div></td><td>3</td><td>3</td><td>0</td><td>0</td><td>8</td><td>1</td><td>+7</td><td class="points">9</td></tr>
-                <tr><td><div class="country"><span class="fi fi-mx"></span>Mexico</div></td><td>3</td><td>3</td><td>0</td><td>0</td><td>6</td><td>0</td><td>+6</td><td class="points">9</td></tr>
-                <tr><td><div class="country"><span class="fi fi-nl"></span>Netherlands</div></td><td>3</td><td>2</td><td>1</td><td>0</td><td>10</td><td>4</td><td>+6</td><td class="points">7</td></tr>
-                <tr><td><div class="country"><span class="fi fi-br"></span>Brazil</div></td><td>3</td><td>2</td><td>1</td><td>0</td><td>7</td><td>1</td><td>+6</td><td class="points">7</td></tr>
-                <tr><td><div class="country"><span class="fi fi-es"></span>Spain</div></td><td>3</td><td>2</td><td>1</td><td>0</td><td>5</td><td>0</td><td>+5</td><td class="points">7</td></tr>
-                <tr><td><div class="country"><span class="fi fi-ch"></span>Switzerland</div></td><td>3</td><td>2</td><td>1</td><td>0</td><td>7</td><td>3</td><td>+4</td><td class="points">7</td></tr>
-                <tr><td><div class="country"><span class="fi fi-gb-eng"></span>England</div></td><td>3</td><td>2</td><td>1</td><td>0</td><td>6</td><td>2</td><td>+4</td><td class="points">7</td></tr>
-                <tr><td><div class="country"><span class="fi fi-co"></span>Colombia</div></td><td>3</td><td>2</td><td>1</td><td>0</td><td>4</td><td>1</td><td>+3</td><td class="points">7</td></tr>
-                <tr><td><div class="country"><span class="fi fi-de"></span>Germany</div></td><td>3</td><td>2</td><td>0</td><td>1</td><td>10</td><td>4</td><td>+6</td><td class="points">6</td></tr>
-                <tr><td><div class="country"><span class="fi fi-us"></span>USA</div></td><td>3</td><td>2</td><td>0</td><td>1</td><td>8</td><td>4</td><td>+4</td><td class="points">6</td></tr>
-                <tr><td><div class="country"><span class="fi fi-be"></span>Belgium</div></td><td>3</td><td>1</td><td>2</td><td>0</td><td>6</td><td>2</td><td>+4</td><td class="points">5</td></tr>
-            </tbody>
-        </table>
-    </div>
+        <!-- 2nd Place Teams -->
+        <div class="card-wrapper">
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr><th>Qualified for Round of 32 (Group Runners-up)</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><div class="country"><span class="fi fi-ma"></span>Morocco</div></td><td>3</td><td>2</td><td>1</td><td>0</td><td>6</td><td>3</td><td>+3</td><td class="points">7</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-ci"></span>Côte d'Ivoire</div></td><td>3</td><td>2</td><td>0</td><td>1</td><td>4</td><td>2</td><td>+2</td><td class="points">6</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-no"></span>Norway</div></td><td>3</td><td>2</td><td>0</td><td>1</td><td>8</td><td>7</td><td>+1</td><td class="points">6</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-hr"></span>Croatia</div></td><td>3</td><td>2</td><td>0</td><td>1</td><td>5</td><td>5</td><td>0</td><td class="points">6</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-pt"></span>Portugal</div></td><td>3</td><td>1</td><td>2</td><td>0</td><td>6</td><td>1</td><td>+5</td><td class="points">5</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-jp"></span>Japan</div></td><td>3</td><td>1</td><td>2</td><td>0</td><td>7</td><td>3</td><td>+4</td><td class="points">5</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-eg"></span>Egypt</div></td><td>3</td><td>1</td><td>2</td><td>0</td><td>5</td><td>3</td><td>+2</td><td class="points">5</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-ca"></span>Canada</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>8</td><td>3</td><td>+5</td><td class="points">4</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-at"></span>Austria</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>6</td><td>6</td><td>0</td><td class="points">4</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-au"></span>Australia</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>2</td><td>2</td><td>0</td><td class="points">4</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-za"></span>South Africa</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>2</td><td>3</td><td>-1</td><td class="points">4</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-cv"></span>Cape Verde</div></td><td>3</td><td>0</td><td>3</td><td>0</td><td>2</td><td>2</td><td>0</td><td class="points">3</td></tr>   
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <div class="card group-content group-content-a" style="margin-top: 30px;">
-        <table>
-            <thead>
-                <tr><th>ทีมที่เข้ารอบ 32 ทีม(อันดับที่ 2 ของกลุ่ม)</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
-            </thead>
-            <tbody>
-                <tr><td><div class="country"><span class="fi fi-ma"></span>Morocco</div></td><td>3</td><td>2</td><td>1</td><td>0</td><td>6</td><td>3</td><td>+3</td><td class="points">7</td></tr>
-                <tr><td><div class="country"><span class="fi fi-ci"></span>Ivory Coast</div></td><td>3</td><td>2</td><td>0</td><td>1</td><td>4</td><td>2</td><td>+2</td><td class="points">6</td></tr>
-                <tr><td><div class="country"><span class="fi fi-no"></span>Norway</div></td><td>3</td><td>2</td><td>0</td><td>1</td><td>8</td><td>7</td><td>+1</td><td class="points">6</td></tr>
-                <tr><td><div class="country"><span class="fi fi-hr"></span>Croatia</div></td><td>3</td><td>2</td><td>0</td><td>1</td><td>5</td><td>5</td><td>0</td><td class="points">6</td></tr>
-                <tr><td><div class="country"><span class="fi fi-pt"></span>Portugal</div></td><td>3</td><td>1</td><td>2</td><td>0</td><td>6</td><td>1</td><td>+5</td><td class="points">5</td></tr>
-                <tr><td><div class="country"><span class="fi fi-jp"></span>Japan</div></td><td>3</td><td>1</td><td>2</td><td>0</td><td>7</td><td>3</td><td>+4</td><td class="points">5</td></tr>
-                <tr><td><div class="country"><span class="fi fi-eg"></span>Egypt</div></td><td>3</td><td>1</td><td>2</td><td>0</td><td>5</td><td>3</td><td>+2</td><td class="points">5</td></tr>
-                <tr><td><div class="country"><span class="fi fi-ca"></span>Canada</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>8</td><td>3</td><td>+5</td><td class="points">4</td></tr>
-                <tr><td><div class="country"><span class="fi fi-at"></span>Austria</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>6</td><td>6</td><td>0</td><td class="points">4</td></tr>
-                <tr><td><div class="country"><span class="fi fi-au"></span>Australia</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>2</td><td>2</td><td>0</td><td class="points">4</td></tr>
-                <tr><td><div class="country"><span class="fi fi-za"></span>South Africa</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>2</td><td>3</td><td>-1</td><td class="points">4</td></tr>
-                <tr><td><div class="country"><span class="fi fi-cv"></span>Cape Verde</div></td><td>3</td><td>0</td><td>3</td><td>0</td><td>2</td><td>2</td><td>0</td><td class="points">3</td></tr>   
-            </tbody>
-        </table>
-    </div>
+        <!-- 3rd Place Teams (Qualified) -->
+        <div class="card-wrapper">
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr><th>Qualified for Round of 32 (Best 3rd-placed Teams)</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><div class="country"><span class="fi fi-cd"></span>Congo DR</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>3</td><td>+1</td><td class="points">4</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-se"></span>Sweden</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>7</td><td>7</td><td>0</td><td class="points">4</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-ec"></span>Ecuador</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>2</td><td>2</td><td>0</td><td class="points">4</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-gh"></span>Ghana</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>2</td><td>2</td><td>0</td><td class="points">4</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-ba"></span>Bosnia and Herzegovina</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>5</td><td>6</td><td>-1</td><td class="points">4</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-dz"></span>Algeria</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>5</td><td>7</td><td>-2</td><td class="points">4</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-py"></span>Paraguay</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>2</td><td>4</td><td>-2</td><td class="points">4</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-sn"></span>Senegal</div></td><td>3</td><td>1</td><td>0</td><td>2</td><td>8</td><td>6</td><td>+2</td><td class="points">3</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <div class="card group-content group-content-a" style="margin-top: 30px;">
-        <table>
-            <thead>
-                <tr><th>ทีมที่เข้ารอบ 32 ทีม(อันดับที่ 3 ของกลุ่ม)</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
-            </thead>
-            <tbody>
-                <tr><td><div class="country"><span class="fi fi-cd"></span>Congo DR</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>3</td><td>+1</td><td class="points">4</td></tr>
-                <tr><td><div class="country"><span class="fi fi-se"></span>Sweden</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>7</td><td>7</td><td>0</td><td class="points">4</td></tr>
-                <tr><td><div class="country"><span class="fi fi-ec"></span>Ecuador</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>2</td><td>2</td><td>0</td><td class="points">4</td></tr>
-                <tr><td><div class="country"><span class="fi fi-gh"></span>Ghana</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>2</td><td>2</td><td>0</td><td class="points">4</td></tr>
-                <tr><td><div class="country"><span class="fi fi-ba"></span>Bosnia and Herzegovina</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>5</td><td>6</td><td>-1</td><td class="points">4</td></tr>
-                <tr><td><div class="country"><span class="fi fi-dz"></span>Algeria</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>5</td><td>7</td><td>-2</td><td class="points">4</td></tr>
-                <tr><td><div class="country"><span class="fi fi-py"></span>Paraguay</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>2</td><td>4</td><td>-2</td><td class="points">4</td></tr>
-                <tr><td><div class="country"><span class="fi fi-sn"></span>Senegal</div></td><td>3</td><td>1</td><td>0</td><td>2</td><td>8</td><td>6</td><td>+2</td><td class="points">3</td></tr>
-            </tbody>
-        </table>
-    </div>
+        <!-- 3rd Place Teams (Eliminated) -->
+        <div class="card-wrapper">
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr><th>Eliminated from Round of 48 (Worst 3rd-placed Teams)</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><div class="country"><span class="fi fi-ir"></span>Iran</div></td><td>3</td><td>0</td><td>3</td><td>0</td><td>3</td><td>3</td><td>0</td><td class="points">3</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-kr"></span>South Korea</div></td><td>3</td><td>1</td><td>0</td><td>2</td><td>2</td><td>3</td><td>-1</td><td class="points">3</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-gb-sct"></span>Scotland</div></td><td>3</td><td>1</td><td>0</td><td>2</td><td>1</td><td>4</td><td>-3</td><td class="points">3</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-uy"></span>Uruguay</div></td><td>3</td><td>0</td><td>2</td><td>1</td><td>3</td><td>4</td><td>-1</td><td class="points">2</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <div class="card group-content group-content-a" style="margin-top: 30px;">
-        <table>
-            <thead>
-                <tr><th>ทีมที่ตกรอบ 48 ทีม(อันดับที่ 3 ของกลุ่ม)</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
-            </thead>
-            <tbody>
-                <tr><td><div class="country"><span class="fi fi-ir"></span>Iran</div></td><td>3</td><td>0</td><td>3</td><td>0</td><td>3</td><td>3</td><td>0</td><td class="points">3</td></tr>
-                <tr><td><div class="country"><span class="fi fi-kr"></span>South Korea</div></td><td>3</td><td>1</td><td>0</td><td>2</td><td>2</td><td>3</td><td>-1</td><td class="points">3</td></tr>
-                <tr><td><div class="country"><span class="fi fi-gb-sct"></span>Scotland</div></td><td>3</td><td>1</td><td>0</td><td>2</td><td>1</td><td>4</td><td>-3</td><td class="points">3</td></tr>
-                <tr><td><div class="country"><span class="fi fi-uy"></span>Uruguay</div></td><td>3</td><td>0</td><td>2</td><td>1</td><td>3</td><td>4</td><td>-1</td><td class="points">2</td></tr>
-            </tbody>
-        </table>
-    </div>
+        <!-- 4th Place Teams (Eliminated) -->
+        <div class="card-wrapper">
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr><th>Eliminated from Round of 48 (4th-placed Teams)</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><div class="country"><span class="fi fi-tr"></span>Türkiye</div></td><td>3</td><td>1</td><td>0</td><td>2</td><td>3</td><td>5</td><td>-2</td><td class="points">3</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-sa"></span>Saudi Arabia</div></td><td>3</td><td>0</td><td>2</td><td>1</td><td>1</td><td>5</td><td>-4</td><td class="points">2</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-cz"></span>Czech Republic</div></td><td>3</td><td>0</td><td>1</td><td>2</td><td>2</td><td>6</td><td>-4</td><td class="points">1</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-nz"></span>New Zealand</div></td><td>3</td><td>0</td><td>1</td><td>2</td><td>4</td><td>10</td><td>-6</td><td class="points">1</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-qa"></span>Qatar</div></td><td>3</td><td>0</td><td>1</td><td>2</td><td>2</td><td>10</td><td>-8</td><td class="points">1</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-cw"></span>Curacao</div></td><td>3</td><td>0</td><td>1</td><td>2</td><td>1</td><td>9</td><td>-8</td><td class="points">1</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-pa"></span>Panama</div></td><td>3</td><td>0</td><td>0</td><td>3</td><td>0</td><td>4</td><td>-4</td><td class="points">0</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-jo"></span>Jordan</div></td><td>3</td><td>0</td><td>0</td><td>3</td><td>3</td><td>8</td><td>-5</td><td class="points">0</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-ht"></span>Haiti</div></td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>8</td><td>-6</td><td class="points">0</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-uz"></span>Uzbekistan</div></td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>11</td><td>-9</td><td class="points">0</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-tn"></span>Tunisia</div></td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>12</td><td>-10</td><td class="points">0</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-iq"></span>Iraq</div></td><td>3</td><td>0</td><td>0</td><td>3</td><td>1</td><td>12</td><td>-11</td><td class="points">0</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
+        <!-- Knockout Round of 32 Eliminated -->
+        <div class="card-wrapper">
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr><th>Eliminated in Round of 32 (Knockout Phase)</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><div class="country"><span class="fi fi-za"></span>South Africa</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>2</td><td>3</td><td>-1</td><td class="points">4</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-jp"></span>Japan</div></td><td>3</td><td>1</td><td>2</td><td>0</td><td>7</td><td>3</td><td>+4</td><td class="points">5</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-de"></span>Germany</div></td><td>3</td><td>2</td><td>0</td><td>1</td><td>10</td><td>4</td><td>+6</td><td class="points">6</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-nl"></span>Netherlands</div></td><td>3</td><td>2</td><td>1</td><td>0</td><td>10</td><td>4</td><td>+6</td><td class="points">7</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-ci"></span>Côte d'Ivoire</div></td><td>3</td><td>2</td><td>0</td><td>1</td><td>4</td><td>2</td><td>+2</td><td class="points">6</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-se"></span>Sweden</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>7</td><td>7</td><td>0</td><td class="points">4</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-ec"></span>Ecuador</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>2</td><td>2</td><td>0</td><td class="points">4</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-cd"></span>Congo DR</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>3</td><td>+1</td><td class="points">4</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-sn"></span>Senegal</div></td><td>3</td><td>1</td><td>0</td><td>2</td><td>8</td><td>6</td><td>+2</td><td class="points">3</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-ba"></span>Bosnia and Herzegovina</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>5</td><td>6</td><td>-1</td><td class="points">4</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-at"></span>Austria</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>6</td><td>6</td><td>0</td><td class="points">4</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-hr"></span>Croatia</div></td><td>3</td><td>2</td><td>0</td><td>1</td><td>5</td><td>5</td><td>0</td><td class="points">6</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-dz"></span>Algeria</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>5</td><td>7</td><td>-2</td><td class="points">4</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-au"></span>Australia</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>2</td><td>2</td><td>0</td><td class="points">4</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-cv"></span>Cape Verde</div></td><td>3</td><td>0</td><td>3</td><td>0</td><td>2</td><td>2</td><td>0</td><td class="points">3</td></tr>   
+                        <tr><td><div class="country"><span class="fi fi-gh"></span>Ghana</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>2</td><td>2</td><td>0</td><td class="points">4</td></tr>   
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <div class="card group-content group-content-a" style="margin-top: 30px;">
-        <table>
-            <thead>
-                <tr><th>ทีมที่ตกรอบ 48 ทีม(อันดับที่ 4 ของกลุ่ม)</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
-            </thead>
-            <tbody>
-                <tr><td><div class="country"><span class="fi fi-tr"></span>Türkiye</div></td><td>3</td><td>1</td><td>0</td><td>2</td><td>3</td><td>5</td><td>-2</td><td class="points">3</td></tr>
-                <tr><td><div class="country"><span class="fi fi-sa"></span>Saudi Arabia</div></td><td>3</td><td>0</td><td>2</td><td>1</td><td>1</td><td>5</td><td>-4</td><td class="points">2</td></tr>
-                <tr><td><div class="country"><span class="fi fi-cz"></span>Czech Republic</div></td><td>3</td><td>0</td><td>1</td><td>2</td><td>2</td><td>6</td><td>-4</td><td class="points">1</td></tr>
-                <tr><td><div class="country"><span class="fi fi-nz"></span>New Zealand</div></td><td>3</td><td>0</td><td>1</td><td>2</td><td>4</td><td>10</td><td>-6</td><td class="points">1</td></tr>
-                <tr><td><div class="country"><span class="fi fi-qa"></span>Qatar</div></td><td>3</td><td>0</td><td>1</td><td>2</td><td>2</td><td>10</td><td>-8</td><td class="points">1</td></tr>
-                <tr><td><div class="country"><span class="fi fi-cw"></span>Curacao</div></td><td>3</td><td>0</td><td>1</td><td>2</td><td>1</td><td>9</td><td>-8</td><td class="points">1</td></tr>
-                <tr><td><div class="country"><span class="fi fi-pa"></span>Panama</div></td><td>3</td><td>0</td><td>0</td><td>3</td><td>0</td><td>4</td><td>-4</td><td class="points">0</td></tr>
-                <tr><td><div class="country"><span class="fi fi-jo"></span>Jordan</div></td><td>3</td><td>0</td><td>0</td><td>3</td><td>3</td><td>8</td><td>-5</td><td class="points">0</td></tr>
-                <tr><td><div class="country"><span class="fi fi-ht"></span>Haiti</div></td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>8</td><td>-6</td><td class="points">0</td></tr>
-                <tr><td><div class="country"><span class="fi fi-uz"></span>Uzbekistan</div></td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>11</td><td>-9</td><td class="points">0</td></tr>
-                <tr><td><div class="country"><span class="fi fi-tn"></span>Tunisia</div></td><td>3</td><td>0</td><td>0</td><td>3</td><td>2</td><td>12</td><td>-10</td><td class="points">0</td></tr>
-                <tr><td><div class="country"><span class="fi fi-iq"></span>Iraq</div></td><td>3</td><td>0</td><td>0</td><td>3</td><td>1</td><td>12</td><td>-11</td><td class="points">0</td></tr>
-            </tbody>
-        </table>
-    </div>
+        <!-- Knockout Round of 16 Eliminated -->
+        <div class="card-wrapper">
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr><th>Eliminated in Round of 16 (Knockout Phase)</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><div class="country"><span class="fi fi-ca"></span>Canada</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>8</td><td>3</td><td>+5</td><td class="points">4</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-py"></span>Paraguay</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>2</td><td>4</td><td>-2</td><td class="points">4</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-br"></span>Brazil</div></td><td>3</td><td>2</td><td>1</td><td>0</td><td>7</td><td>1</td><td>+6</td><td class="points">7</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-mx"></span>Mexico</div></td><td>3</td><td>3</td><td>0</td><td>0</td><td>6</td><td>0</td><td>+6</td><td class="points">9</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-pt"></span>Portugal</div></td><td>3</td><td>1</td><td>2</td><td>0</td><td>6</td><td>1</td><td>+5</td><td class="points">5</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-us"></span>USA</div></td><td>3</td><td>2</td><td>0</td><td>1</td><td>8</td><td>4</td><td>+4</td><td class="points">6</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-eg"></span>Egypt</div></td><td>3</td><td>1</td><td>2</td><td>0</td><td>5</td><td>3</td><td>+2</td><td class="points">5</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-co"></span>Colombia</div></td><td>3</td><td>2</td><td>1</td><td>0</td><td>4</td><td>1</td><td>+3</td><td class="points">7</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-        <div class="card group-content group-content-a" style="margin-top: 30px;">
-        <table>
-            <thead>
-                <tr><th>ทีมที่ตกรอบ 32 ทีม(Knockout)</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
-            </thead>
-            <tbody>
-                <tr><td><div class="country"><span class="fi fi-za"></span>South Africa</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>2</td><td>3</td><td>-1</td><td class="points">4</td></tr>
-                <tr><td><div class="country"><span class="fi fi-jp"></span>Japan</div></td><td>3</td><td>1</td><td>2</td><td>0</td><td>7</td><td>3</td><td>+4</td><td class="points">5</td></tr>
-                <tr><td><div class="country"><span class="fi fi-de"></span>Germany</div></td><td>3</td><td>2</td><td>0</td><td>1</td><td>10</td><td>4</td><td>+6</td><td class="points">6</td></tr>
-                <tr><td><div class="country"><span class="fi fi-nl"></span>Netherlands</div></td><td>3</td><td>2</td><td>1</td><td>0</td><td>10</td><td>4</td><td>+6</td><td class="points">7</td></tr>
-                <tr><td><div class="country"><span class="fi fi-ci"></span>Ivory Coast</div></td><td>3</td><td>2</td><td>0</td><td>1</td><td>4</td><td>2</td><td>+2</td><td class="points">6</td></tr>
-                <tr><td><div class="country"><span class="fi fi-se"></span>Sweden</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>7</td><td>7</td><td>0</td><td class="points">4</td></tr>
-                <tr><td><div class="country"><span class="fi fi-ec"></span>Ecuador</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>2</td><td>2</td><td>0</td><td class="points">4</td></tr>
-                <tr><td><div class="country"><span class="fi fi-cd"></span>Congo DR</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>4</td><td>3</td><td>+1</td><td class="points">4</td></tr>
-                <tr><td><div class="country"><span class="fi fi-sn"></span>Senegal</div></td><td>3</td><td>1</td><td>0</td><td>2</td><td>8</td><td>6</td><td>+2</td><td class="points">3</td></tr>
-                <tr><td><div class="country"><span class="fi fi-ba"></span>Bosnia and Herzegovina</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>5</td><td>6</td><td>-1</td><td class="points">4</td></tr>
-                <tr><td><div class="country"><span class="fi fi-at"></span>Austria</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>6</td><td>6</td><td>0</td><td class="points">4</td></tr>
-                <tr><td><div class="country"><span class="fi fi-hr"></span>Croatia</div></td><td>3</td><td>2</td><td>0</td><td>1</td><td>5</td><td>5</td><td>0</td><td class="points">6</td></tr>
-                <tr><td><div class="country"><span class="fi fi-dz"></span>Algeria</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>5</td><td>7</td><td>-2</td><td class="points">4</td></tr>
-                <tr><td><div class="country"><span class="fi fi-au"></span>Australia</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>2</td><td>2</td><td>0</td><td class="points">4</td></tr>
-                <tr><td><div class="country"><span class="fi fi-cv"></span>Cape Verde</div></td><td>3</td><td>0</td><td>3</td><td>0</td><td>2</td><td>2</td><td>0</td><td class="points">3</td></tr>   
-                <tr><td><div class="country"><span class="fi fi-gh"></span>Ghana</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>2</td><td>2</td><td>0</td><td class="points">4</td></tr>   
-            </tbody>
-        </table>
-    </div>
-
-    <div class="card group-content group-content-a" style="margin-top: 30px;">
-        <table>
-            <thead>
-                <tr><th>ทีมที่ตกรอบ 16 ทีม(Knockout)</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
-            </thead>
-            <tbody>
-                <tr><td><div class="country"><span class="fi fi-ca"></span>Canada</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>8</td><td>3</td><td>+5</td><td class="points">4</td></tr>
-                <tr><td><div class="country"><span class="fi fi-py"></span>Paraguay</div></td><td>3</td><td>1</td><td>1</td><td>1</td><td>2</td><td>4</td><td>-2</td><td class="points">4</td></tr>
-                <tr><td><div class="country"><span class="fi fi-br"></span>Brazil</div></td><td>3</td><td>2</td><td>1</td><td>0</td><td>7</td><td>1</td><td>+6</td><td class="points">7</td></tr>
-                <tr><td><div class="country"><span class="fi fi-mx"></span>Mexico</div></td><td>3</td><td>3</td><td>0</td><td>0</td><td>6</td><td>0</td><td>+6</td><td class="points">9</td></tr>
-                <tr><td><div class="country"><span class="fi fi-pt"></span>Portugal</div></td><td>3</td><td>1</td><td>2</td><td>0</td><td>6</td><td>1</td><td>+5</td><td class="points">5</td></tr>
-                <tr><td><div class="country"><span class="fi fi-us"></span>USA</div></td><td>3</td><td>2</td><td>0</td><td>1</td><td>8</td><td>4</td><td>+4</td><td class="points">6</td></tr>
-                 <tr><td><div class="country"><span class="fi fi-eg"></span>Egypt</div></td><td>3</td><td>1</td><td>2</td><td>0</td><td>5</td><td>3</td><td>+2</td><td class="points">5</td></tr>
-                 <tr><td><div class="country"><span class="fi fi-co"></span>Colombia</div></td><td>3</td><td>2</td><td>1</td><td>0</td><td>4</td><td>1</td><td>+3</td><td class="points">7</td></tr>
-            </tbody>
-        </table>
-    </div>
-
-
-    <div class="card group-content group-content-a" style="margin-top: 30px;">
-        <table>
-            <thead>
-                <tr><th>ทีมที่ตกรอบ 8 ทีม(Knockout)</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
-            </thead>
-            <tbody>
-                <tr><td><div class="country"><span class="fi fi-ma"></span>Morocco</div></td><td>3</td><td>2</td><td>1</td><td>0</td><td>6</td><td>3</td><td>+3</td><td class="points">7</td></tr>
-                <tr><td><div class="country"><span class="fi fi-be"></span>Belgium</div></td><td>3</td><td>1</td><td>2</td><td>0</td><td>6</td><td>2</td><td>+4</td><td class="points">5</td></tr>
-                
-            </tbody>
-        </table>
+        <!-- Knockout Quarter-finals Eliminated -->
+        <div class="card-wrapper">
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr><th>Eliminated in Quarter-finals (Round of 8)</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>PTS</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><div class="country"><span class="fi fi-ma"></span>Morocco</div></td><td>3</td><td>2</td><td>1</td><td>0</td><td>6</td><td>3</td><td>+3</td><td class="points">7</td></tr>
+                        <tr><td><div class="country"><span class="fi fi-be"></span>Belgium</div></td><td>3</td><td>1</td><td>2</td><td>0</td><td>6</td><td>2</td><td>+4</td><td class="points">5</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
     </div>
 </div>
 
