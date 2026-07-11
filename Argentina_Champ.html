@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIFA World Cup 2026 Champions</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght=0,300;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS STYLING --- */
+        :root {
+            --gold: #FFD700;
+            --gold-gradient: linear-gradient(45deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+            --dark-bg: #0b0e14;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-light: #ffffff;
+            
+            /* Team Customization (Can be changed dynamically via JS) */
+            --team-primary: #74ACDF; 
+            --team-secondary: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            min-height: 100vh;
+            /* Using min-height and padding ensures content is never cut off on small screens */
+            padding: 2rem 1rem; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Background Visual Effects */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(186, 151, 60, 0.15) 0%, transparent 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        #confetti-canvas {
+            position: fixed; /* Fixed ensures it stays locked to window bounds during scroll */
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Main Container */
+        .celebration-container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 700px;
+            width: 100%;
+            margin: auto;
+        }
+
+        /* Header Layout & Animations */
+        .badge {
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-size: clamp(0.7rem, 2vw, 0.9rem); /* Fluid typography */
+            margin-bottom: 1rem;
+            display: inline-block;
+            border: 1px solid var(--gold);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            background: rgba(255, 215, 0, 0.05);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .main-title {
+            font-size: clamp(2rem, 8vw, 3.5rem); /* Dynamically scales with viewport */
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: scaleIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Champion Card (Fluid and Padding-flexible) */
+        .champion-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: clamp(2rem, 5vw, 3.5rem) clamp(1rem, 4vw, 2.5rem);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .trophy-wrapper {
+            position: relative;
+            width: clamp(120px, 25vw, 180px); /* Responsive sizing for the trophy */
+            height: clamp(120px, 25vw, 180px);
+            margin: 0 auto 1.5rem auto;
+        }
+
+        .trophy-icon {
+            width: 100%;
+            height: 100%;
+            fill: url(#gold-grad);
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.4));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .team-name {
+            font-size: clamp(2.5rem, 10vw, 4.5rem); /* Auto-scales perfectly on mobile */
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+            line-height: 1;
+        }
+
+        .congrats-text {
+            font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+            font-weight: 300;
+            opacity: 0.8;
+            max-width: 500px;
+            margin: 0 auto 2rem auto;
+            line-height: 1.6;
+        }
+
+        /* Responsive Button */
+        .celebrate-btn {
+            background: var(--gold-gradient);
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: clamp(0.85rem, 2vw, 1rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 50px;
+            cursor: pointer;
+            color: #000;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+            width: auto;
+            max-width: 100%;
+        }
+
+        .celebrate-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.5);
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        /* Extra small device adjustments */
+        @media (max-width: 380px) {
+            body { padding: 1rem 0.5rem; }
+            .champion-card { padding: 1.5rem 0.75rem; }
+            .celebrate-btn { width: 100%; padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="celebration-container">
+        <span class="badge">History is Made</span>
+        <h1 class="main-title">FIFA World Cup 2026<br>Champions</h1>
+
+        <div class="champion-card">
+            <div class="trophy-wrapper">
+                <svg class="trophy-icon" viewBox="0 0 24 24">
+                    <defs>
+                        <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#BF953F" />
+                            <stop offset="25%" stop-color="#FCF6BA" />
+                            <stop offset="50%" stop-color="#B38728" />
+                            <stop offset="100%" stop-color="#AA771C" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M18 2H6v2c0 2.21 1.79 4 4 4h4c2.21 0 4-1.79 4-4V2z M4 5c0 1.66 1.34 3 3 3h1V4H7c-1.66 0-3 1.34-3 3zm13 3h1c1.66 0 3-1.34 3-3s-1.34-3-3-3h-1v4z M12 10c-3.31 0-6 2.69-6 6v1h12v-1c0-3.31-2.69-6-6-6zm-4 9h8v2H8z"/>
+                </svg>
+            </div>
+
+            <h2 class="team-name" id="champion-team">ARGENTINA</h2> 
+            
+            <p class="congrats-text">
+                Absolute glory! Through passion, tears, and undeniable teamwork, they have conquered the world and etched their names into football eternity.
+            </p>
+
+            <button class="celebrate-btn" onclick="triggerConfetti()">Celebrate Again!</button>
+        </div>
+    </div>
+
+    <!-- --- JAVASCRIPT --- -->
+    <script>
+        // CONFIGURATION: Change the champion details here!
+        const CHAMPION_CONFIG = {
+            teamName: "ARGENTINA", 
+            primaryColor: "#74ACDF", 
+            secondaryColor: "#FFFFFF"
+        };
+
+        // Apply Configuration
+        const teamElement = document.getElementById('champion-team');
+        teamElement.innerText = CHAMPION_CONFIG.teamName;
+        teamElement.style.color = CHAMPION_CONFIG.primaryColor;
+        teamElement.style.textShadow = `0 0 20px ${CHAMPION_CONFIG.primaryColor}80`;
+
+        // Responsive Confetti Canvas Setup
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        // Listen to resize and orientation changes
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initConfetti(); // Re-init to distribute smoothly across new dimensions
+        });
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height - canvas.height;
+                this.size = Math.random() * 6 + 4; // adjusted size slightly for mobile crispness
+                this.speedX = Math.random() * 4 - 2;
+                this.speedY = Math.random() * 4 + 3;
+                
+                const colors = [
+                    '#FFD700', '#FFA500', '#FFFFFF', 
+                    CHAMPION_CONFIG.primaryColor, 
+                    CHAMPION_CONFIG.secondaryColor
+                ];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 4 - 2;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.rotation += this.rotationSpeed;
+
+                if (this.y > canvas.height) {
+                    this.y = -20;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        function initConfetti() {
+            particles = [];
+            // Scale particle counts based on screensize for better performance
+            const particleCount = window.innerWidth < 600 ? 80 : 150;
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        function triggerConfetti() {
+            particles.forEach(p => {
+                p.y = Math.random() * canvas.height * 0.2 - 30; 
+                p.speedY = Math.random() * 6 + 5;
+            });
+        }
+
+        // Start
+        initConfetti();
+        animate();
+    </script>
+</body>
+</html>
