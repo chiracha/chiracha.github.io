@@ -39,7 +39,7 @@
         header p { margin: 0; opacity: 0.9; font-size: 1.1rem; }
 
         /* จัด Grid Layout ให้สวยงามตามขนาดหน้าจอ */
-        #matches-container, #matches-container_1 {
+        #matches-container, #matches-container_1, #matches-container_2, #matches-container_3, #matches-container_4, #matches-container_5 {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 20px;
@@ -47,7 +47,7 @@
             margin: 0 auto;
         }
 
-        .match-link, .match_1-link {
+        .match-link {
             text-decoration: none;
             color: inherit;
             display: block;
@@ -178,7 +178,7 @@
                            {"match": 74, "group": "Round of 32", "t1": "Brazil", "f1": "br", "s1": 2, "s2": 1, "t2": "Japan", "f2": "jp", "link": "https://youtu.be/N4rUTE0aCDQ?si=w8lgjMT7QoTUQMAI"}, 
                            {"match": 75, "group": "Round of 32", "t1": "Germany (1)", "f1": "de", "s1": 3, "s2": 4, "t2": "Paraguay (1)", "f2": "py", "link": "https://youtu.be/ZiFoGrv_dsE?si=tTN68HCPNPDEqPAk"}, 
                            {"match": 76, "group": "Round of 32", "t1": "Netherlands (1)", "f1": "nl", "s1": 2, "s2": 3, "t2": "Morocco (1)", "f2": "ma", "link": "https://www.youtube.com/watch?v=l1oSv8BlSOs"}, 
-                           {"match": 77, "group": "Round of 32", "t1": "Ivory Coast", "f1": "ci", "s1": 1, "s2": 2, "t2": "Norway", "f2": "no", "link": "https://www.youtube.com/watch?v=h5gC7YXG9wE"}, 
+                           {"match": 77, "group": "Round of 32", "t1": "Côte d'Ivoire", "f1": "ci", "s1": 1, "s2": 2, "t2": "Norway", "f2": "no", "link": "https://www.youtube.com/watch?v=h5gC7YXG9wE"}, 
                            {"match": 78, "group": "Round of 32", "t1": "France", "f1": "fr", "s1": 3, "s2": 0, "t2": "Sweden", "f2": "se", "link": "https://youtu.be/z82ZpCuf2g4?si=7318i_A1z791xE_5"}, 
                            {"match": 79, "group": "Round of 32", "t1": "Mexico", "f1": "mx", "s1": 2, "s2": 0, "t2": "Ecuador", "f2": "ec", "link": "https://www.youtube.com/watch?v=43Gcs7qTLqs"}, 
                            {"match": 80, "group": "Round of 32", "t1": "England", "f1": "gb-eng", "s1": 2, "s2": 1, "t2": "Congo DR", "f2": "cd", "link": "https://www.youtube.com/watch?v=69Gc5u2wV9I"}, 
@@ -190,8 +190,6 @@
                            {"match": 86, "group": "Round of 32", "t1": "Australia (1)", "f1": "au", "s1": 2, "s2": 4, "t2": "Egypt (1)", "f2": "eg", "link": "https://www.youtube.com/watch?v=MmjGYBp55xo"}, 
                            {"match": 87, "group": "Round of 32", "t1": "Argentina", "f1": "ar", "s1": 3, "s2": 2, "t2": "Cape Verde", "f2": "cv", "link": "https://youtu.be/d9XuxPbPC2M?si=vluYBhwvDyrJBakp"}, 
                            {"match": 88, "group": "Round of 32", "t1": "Colombia", "f1": "co", "s1": 1, "s2": 0, "t2": "Ghana", "f2": "gh", "link": "https://www.youtube.com/watch?v=Egx8eu7YmIQ"}];
-                           
-
         const container = document.getElementById('matches-container');
 
         // ฟังก์ชันลูปสร้างการ์ดของแต่ละแมตช์
@@ -246,9 +244,6 @@
 
 
 
-
-
-
     <header style="margin-top: 30px;">
         <h2>Knockout Round</h2>
         <p>Result & Highlight (Match 89 - 96)</p>
@@ -264,14 +259,11 @@
         const matchData_1 = [{"match": 89, "group": "Round of 16", "t1": "Canada", "f1": "ca", "s1": 0, "s2": 3, "t2": "Morocco", "f2": "ma", "link": "https://youtu.be/myr-XX0Jjt8?si=I6higVdqxS83iDwI"}, 
                            {"match": 90, "group": "Round of 16", "t1": "Paraguay", "f1": "py", "s1": 0, "s2": 1, "t2": "France", "f2": "fr", "link": "https://www.youtube.com/watch?v=YmoLmoJXmAo"}, 
                            {"match": 91, "group": "Round of 16", "t1": "Brazil", "f1": "br", "s1": 1, "s2": 2, "t2": "Norway", "f2": "no", "link": "https://youtu.be/59ZQSE33wtI?si=3t7xAXPrOvp5jIoJ"}, 
-                           {"match": 92, "group": "Round of 16", "t1": "Mexico", "f1": "mx", "s1": 0, "s2": 0, "t2": "England", "f2": "gb-eng", "link": ""}, 
-                           {"match": 93, "group": "Round of 16", "t1": "Portugal", "f1": "pt", "s1": 0, "s2": 0, "t2": "Spain", "f2": "es", "link": ""}, 
-                           {"match": 94, "group": "Round of 16", "t1": "USA", "f1": "us", "s1": 0, "s2": 0, "t2": "Belgium", "f2": "be", "link": ""}, 
-                           {"match": 95, "group": "Round of 16", "t1": "Argentina", "f1": "ar", "s1": 0, "s2": 0, "t2": "Egypt", "f2": "eg", "link": ""}, 
-                           {"match": 96, "group": "Round of 16", "t1": "Switzerland", "f1": "ch", "s1": 0, "s2": 0, "t2": "Colombia", "f2": "co", "link": ""}]; 
-                           
-                           
-
+                           {"match": 92, "group": "Round of 16", "t1": "Mexico", "f1": "mx", "s1": 2, "s2": 3, "t2": "England", "f2": "gb-eng", "link": "https://www.youtube.com/watch?v=UHNBLnWD5_k"}, 
+                           {"match": 93, "group": "Round of 16", "t1": "Portugal", "f1": "pt", "s1": 0, "s2": 1, "t2": "Spain", "f2": "es", "link": "https://youtu.be/UpP1m_73LBw?si=PrhsKmkiwECVqMXW"}, 
+                           {"match": 94, "group": "Round of 16", "t1": "USA", "f1": "us", "s1": 1, "s2": 4, "t2": "Belgium", "f2": "be", "link": "https://www.youtube.com/watch?v=tpl0tHpyG30"}, 
+                           {"match": 95, "group": "Round of 16", "t1": "Argentina", "f1": "ar", "s1": 3, "s2": 2, "t2": "Egypt", "f2": "eg", "link": "https://youtu.be/_HtjtlBOCoc?si=8lDebYyLW0xww1dQ"}, 
+                           {"match": 96, "group": "Round of 16", "t1": "Switzerland (0)", "f1": "ch", "s1": 4, "s2": 3, "t2": "Colombia (0)", "f2": "co", "link": "https://youtu.be/x04FT494WmE?si=rIS9CusaFq3yjoV7"}]; 
         const container_1 = document.getElementById('matches-container_1');
 
         // ฟังก์ชันลูปสร้างการ์ดของแต่ละแมตช์
@@ -323,6 +315,281 @@
             container_1.innerHTML += cardHTML;
         });
     </script>
+
+
+
+<header style="margin-top: 30px;">
+        <h2>Knockout Round</h2>
+        <p>Result & Highlight (Match 97 - 100)</p>
+        <!-- <p>Developed by Chirachai</p> -->
+    </header>
+
+    <div id="matches-container_2">
+        <!-- ข้อมูลทั้งหมดจะถูกเรนเดอร์อัตโนมัติผ่าน JavaScript -->
+    </div>
+
+    <script>
+        // ข้อมูล JSON ทั้ง 72 แมตช์ที่ถูกดึงและจัดเตรียมมาจาก Excel
+        const matchData_2 = [{"match": 97, "group": "Round of 8", "t1": "France", "f1": "fr", "s1": 2, "s2": 0, "t2": "Morocco", "f2": "ma", "link": "https://www.youtube.com/watch?v=xQfVDxRg-D8"}, 
+                           {"match": 98, "group": "Round of 8", "t1": "Spain", "f1": "es", "s1": 2, "s2": 1, "t2": "Belgium", "f2": "be", "link": "https://www.youtube.com/watch?v=_VDMv86DCTM"}, 
+                           {"match": 99, "group": "Round of 8", "t1": "Norway", "f1": "no", "s1": 1, "s2": 2, "t2": "England", "f2": "gb-eng", "link": "https://youtu.be/CdsByQzFEbY?si=WT1RxiQuBWke7Vjk"}, 
+                           {"match": 100, "group": "Round of 8", "t1": "Argentina", "f1": "ar", "s1": 3, "s2": 1, "t2": "Switzerland", "f2": "ch", "link": "https://youtu.be/j7KnNCk2Aa4?si=RriiuJenywN17-s4"}]; 
+        const container_2 = document.getElementById('matches-container_2');
+
+        // ฟังก์ชันลูปสร้างการ์ดของแต่ละแมตช์
+        matchData_2.forEach(match_2 => {
+            
+            // เช็คสถานะ ชนะ/แพ้/เสมอ
+            let classT1 = "draw";
+            let classT2 = "draw";
+            
+            if (match_2.s1 > match_2.s2) {
+                classT1 = "winner";
+                classT2 = "loser";
+            } else if (match_2.s2 > match_2.s1) {
+                classT1 = "loser";
+                classT2 = "winner";
+            }
+
+            // สร้าง HTML Structure ของแต่ละการ์ด
+            const cardHTML = `
+                <a href="${match_2.link}" target="_blank" class="match-link">
+                    <div class="match-card">
+                        <div class="match-header">
+                            <span>Match ${match_2.match}</span>
+                            <span>${match_2.group}</span>
+                        </div>
+                        <div class="match-body">
+                            <!-- ทีมฝั่งซ้าย (Team 1) -->
+                            <div class="team ${classT1}">
+                                <div class="flag-box"><span class="fi fi-${match_2.f1}"></span></div>
+                                <span class="team-name">${match_2.t1}</span>
+                            </div>
+                            
+                            <!-- สกอร์การแข่งขัน -->
+                            <div class="score-box">
+                                ${match_2.s1} - ${match_2.s2}
+                            </div>
+                            
+                            <!-- ทีมฝั่งขวา (Team 2) -->
+                            <div class="team ${classT2}">
+                                <div class="flag-box"><span class="fi fi-${match_2.f2}"></span></div>
+                                <span class="team-name">${match_2.t2}</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            `;
+            
+            // นำ HTML ที่สร้างไปแทรกลงในคอนเทนเนอร์
+            container_2.innerHTML += cardHTML;
+        });
+    </script>
+
+
+
+
+<header style="margin-top: 30px;">
+        <h2>Knockout Round</h2>
+        <p>Result & Highlight (Match 101 - 102)</p>
+        <!-- <p>Developed by Chirachai</p> -->
+    </header>
+
+    <div id="matches-container_3">
+        <!-- ข้อมูลทั้งหมดจะถูกเรนเดอร์อัตโนมัติผ่าน JavaScript -->
+    </div>
+
+    <script>
+        // ข้อมูล JSON ทั้ง 72 แมตช์ที่ถูกดึงและจัดเตรียมมาจาก Excel
+        const matchData_3 = [{"match": 101, "group": "Round of 4", "t1": "France", "f1": "fr", "s1": 0, "s2": 2, "t2": "Spain", "f2": "es", "link": "https://youtu.be/_tu8Uq5Ofuc?si=D1ME7cY7I6lDVjqF"}, 
+                           {"match": 102, "group": "Round of 4", "t1": "England", "f1": "gb-eng", "s1": 0, "s2": 0, "t2": "Argentina", "f2": "ar", "link": ""}];
+        const container_3 = document.getElementById('matches-container_3');
+
+        // ฟังก์ชันลูปสร้างการ์ดของแต่ละแมตช์
+        matchData_3.forEach(match_3 => {
+            
+            // เช็คสถานะ ชนะ/แพ้/เสมอ
+            let classT1 = "draw";
+            let classT2 = "draw";
+            
+            if (match_3.s1 > match_3.s2) {
+                classT1 = "winner";
+                classT2 = "loser";
+            } else if (match_3.s2 > match_3.s1) {
+                classT1 = "loser";
+                classT2 = "winner";
+            }
+
+            // สร้าง HTML Structure ของแต่ละการ์ด
+            const cardHTML = `
+                <a href="${match_3.link}" target="_blank" class="match-link">
+                    <div class="match-card">
+                        <div class="match-header">
+                            <span>Match ${match_3.match}</span>
+                            <span>${match_3.group}</span>
+                        </div>
+                        <div class="match-body">
+                            <!-- ทีมฝั่งซ้าย (Team 1) -->
+                            <div class="team ${classT1}">
+                                <div class="flag-box"><span class="fi fi-${match_3.f1}"></span></div>
+                                <span class="team-name">${match_3.t1}</span>
+                            </div>
+                            
+                            <!-- สกอร์การแข่งขัน -->
+                            <div class="score-box">
+                                ${match_3.s1} - ${match_3.s2}
+                            </div>
+                            
+                            <!-- ทีมฝั่งขวา (Team 2) -->
+                            <div class="team ${classT2}">
+                                <div class="flag-box"><span class="fi fi-${match_3.f2}"></span></div>
+                                <span class="team-name">${match_3.t2}</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            `;
+            
+            // นำ HTML ที่สร้างไปแทรกลงในคอนเทนเนอร์
+            container_3.innerHTML += cardHTML;
+        });
+    </script>
+
+
+<header style="margin-top: 30px;">
+        <h2>Knockout Round</h2>
+        <p>Result & Highlight (Match 103)</p>
+        <!-- <p>Developed by Chirachai</p> -->
+    </header>
+
+    <div id="matches-container_4">
+        <!-- ข้อมูลทั้งหมดจะถูกเรนเดอร์อัตโนมัติผ่าน JavaScript -->
+    </div>
+
+    <script>
+        // ข้อมูล JSON ทั้ง 72 แมตช์ที่ถูกดึงและจัดเตรียมมาจาก Excel
+        const matchData_4 = [{"match": 103, "group": "3rd place play-off", "t1": "France", "f1": "fr", "s1": 0, "s2": 0, "t2": "Morocco", "f2": "ma", "link": ""}];
+                           
+        const container_4 = document.getElementById('matches-container_4');
+
+        // ฟังก์ชันลูปสร้างการ์ดของแต่ละแมตช์
+        matchData_4.forEach(match_4 => {
+            
+            // เช็คสถานะ ชนะ/แพ้/เสมอ
+            let classT1 = "draw";
+            let classT2 = "draw";
+            
+            if (match_4.s1 > match_4.s2) {
+                classT1 = "winner";
+                classT2 = "loser";
+            } else if (match_4.s2 > match_4.s1) {
+                classT1 = "loser";
+                classT2 = "winner";
+            }
+
+            // สร้าง HTML Structure ของแต่ละการ์ด
+            const cardHTML = `
+                <a href="${match_4.link}" target="_blank" class="match-link">
+                    <div class="match-card">
+                        <div class="match-header">
+                            <span>Match ${match_4.match}</span>
+                            <span>${match_4.group}</span>
+                        </div>
+                        <div class="match-body">
+                            <!-- ทีมฝั่งซ้าย (Team 1) -->
+                            <div class="team ${classT1}">
+                                <div class="flag-box"><span class="fi fi-${match_4.f1}"></span></div>
+                                <span class="team-name">${match_4.t1}</span>
+                            </div>
+                            
+                            <!-- สกอร์การแข่งขัน -->
+                            <div class="score-box">
+                                ${match_4.s1} - ${match_4.s2}
+                            </div>
+                            
+                            <!-- ทีมฝั่งขวา (Team 2) -->
+                            <div class="team ${classT2}">
+                                <div class="flag-box"><span class="fi fi-${match_4.f2}"></span></div>
+                                <span class="team-name">${match_4.t2}</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            `;
+            
+            // นำ HTML ที่สร้างไปแทรกลงในคอนเทนเนอร์
+            container_4.innerHTML += cardHTML;
+        });
+    </script>
+
+
+
+<header style="margin-top: 30px;">
+        <h2>Knockout Round</h2>
+        <p>Result & Highlight (Match 104)</p>
+        <!-- <p>Developed by Chirachai</p> -->
+    </header>
+
+    <div id="matches-container_5">
+        <!-- ข้อมูลทั้งหมดจะถูกเรนเดอร์อัตโนมัติผ่าน JavaScript -->
+    </div>
+
+    <script>
+        // ข้อมูล JSON ทั้ง 72 แมตช์ที่ถูกดึงและจัดเตรียมมาจาก Excel
+        const matchData_5 = [{"match": 104, "group": "Final", "t1": "Spain", "f1": "es", "s1": 0, "s2": 0, "t2": "Morocco", "f2": "ma", "link": ""}];
+                           
+        const container_5 = document.getElementById('matches-container_5');
+
+        // ฟังก์ชันลูปสร้างการ์ดของแต่ละแมตช์
+        matchData_5.forEach(match_5 => {
+            
+            // เช็คสถานะ ชนะ/แพ้/เสมอ
+            let classT1 = "draw";
+            let classT2 = "draw";
+            
+            if (match_5.s1 > match_5.s2) {
+                classT1 = "winner";
+                classT2 = "loser";
+            } else if (match_5.s2 > match_5.s1) {
+                classT1 = "loser";
+                classT2 = "winner";
+            }
+
+            // สร้าง HTML Structure ของแต่ละการ์ด
+            const cardHTML = `
+                <a href="${match_5.link}" target="_blank" class="match-link">
+                    <div class="match-card">
+                        <div class="match-header">
+                            <span>Match ${match_5.match}</span>
+                            <span>${match_5.group}</span>
+                        </div>
+                        <div class="match-body">
+                            <!-- ทีมฝั่งซ้าย (Team 1) -->
+                            <div class="team ${classT1}">
+                                <div class="flag-box"><span class="fi fi-${match_5.f1}"></span></div>
+                                <span class="team-name">${match_5.t1}</span>
+                            </div>
+                            
+                            <!-- สกอร์การแข่งขัน -->
+                            <div class="score-box">
+                                ${match_5.s1} - ${match_5.s2}
+                            </div>
+                            
+                            <!-- ทีมฝั่งขวา (Team 2) -->
+                            <div class="team ${classT2}">
+                                <div class="flag-box"><span class="fi fi-${match_5.f2}"></span></div>
+                                <span class="team-name">${match_5.t2}</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            `;
+            
+            // นำ HTML ที่สร้างไปแทรกลงในคอนเทนเนอร์
+            container_5.innerHTML += cardHTML;
+        });
+    </script>
+
 
 </body>
 </html>
