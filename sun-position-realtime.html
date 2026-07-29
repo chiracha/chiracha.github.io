@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Sun & Moon Position Tracker</title>
+    <style>
+        :root {
+            --primary: #f59e0b;
+            --secondary: #ef4444;
+            --bg-dark: #070a13;
+            --card-bg: rgba(15, 23, 42, 0.65);
+            --text-light: #f8fafc;
+            --neon-blue: #06b6d4;
+            --moon-light: #e2e8f0;
+            --moon-glow: #38bdf8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at 50% 50%, #111827 0%, #030712 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1050px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7);
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 850px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .control-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        h1 {
+            font-size: 1.7rem;
+            background: linear-gradient(to right, var(--primary), var(--moon-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .tagline {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        input, select {
+            padding: 10px 14px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.25);
+        }
+
+        .row-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .mode-container {
+            display: flex;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 8px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: 0.2s;
+        }
+
+        .mode-btn.active {
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: 0 2px 8px rgba(6, 182, 212, 0.4);
+        }
+
+        /* Graphic Dashboard Display */
+        .visual-panel {
+            background: rgba(10, 15, 30, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .clock-display {
+            font-size: 1.5rem;
+            font-weight: bold;
+            font-family: monospace;
+            color: var(--neon-blue);
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+        }
+
+        .sphere-wrapper {
+            width: 100%;
+            max-width: 320px;
+            height: 300px;
+            position: relative;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .data-grid-main {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .astro-section {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 12px;
+        }
+
+        .astro-title {
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .sun-title { color: var(--primary); }
+        .moon-title { color: var(--moon-glow); }
+
+        .data-grid-sub {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .data-card {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .data-card p {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            margin-bottom: 2px;
+        }
+
+        .data-card h2 {
+            font-size: 1.05rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Control Inputs Side -->
+    <div class="control-panel">
+        <div>
+            <h1>Sun & Moon Tracker</h1>
+            <p class="tagline">คำนวณพิกัดขอบฟ้าของดวงอาทิตย์และดวงจันทร์แบบวงโคจรคู่ขนาน</p>
+
+            <div class="mode-container">
+                <button class="mode-btn active" id="btn-rt" onclick="setMode('realtime')">🕒 เวลาจริง (Real-Time)</button>
+                <button class="mode-btn" id="btn-man" onclick="setMode('manual')">🎛️ กำหนดเวลาเอง</button>
+            </div>
+
+            <div class="row-grid">
+                <div class="form-group">
+                    <label for="inp-date">วันที่</label>
+                    <input type="date" id="inp-date" disabled oninput="triggerManualCalculation()">
+                </div>
+                <div class="form-group">
+                    <label for="inp-time">เวลา</label>
+                    <input type="time" id="inp-time" step="1" disabled oninput="triggerManualCalculation()">
+                </div>
+            </div>
+
+            <div class="row-grid">
+                <div class="form-group">
+                    <label for="inp-lat">ละติจูด (Latitude) °</label>
+                    <input type="number" id="inp-lat" value="13.75" step="any" oninput="triggerManualCalculation()">
+                </div>
+                <div class="form-group">
+                    <label for="inp-lng">ลองจิจูด (Longitude) °</label>
+                    <input type="number" id="inp-lng" value="100.51" step="any" oninput="triggerManualCalculation()">
+                </div>
+            </div>
+        </div>
+
+        <div style="font-size: 0.75rem; color: #64748b; line-height: 1.4; margin-top: 15px;">
+            *จำลองมิติทางดาราศาสตร์ในมุมมอง 3D Isometric ข้อมูลและตำแหน่งพิกัดถูกอ้างอิงร่วมกับเวลามาตรฐานสากล
+        </div>
+    </div>
+
+    <!-- Visual Dashboard Side -->
+    <div class="visual-panel">
+        <div class="clock-display" id="clock">00:00:00</div>
+
+        <!-- 3D Look Alike Spherical Dome -->
+        <div class="sphere-wrapper">
+            <svg viewBox="0 0 200 200">
+                <!-- Sky Dome Back Half -->
+                <path d="M 20 100 A 80 80 0 0 1 180 100" fill="rgba(6, 182, 212, 0.01)" stroke="#1e293b" stroke-width="1"/>
+                
+                <!-- Ground / Horizon Plane -->
+                <ellipse cx="100" cy="100" rx="80" ry="24" fill="rgba(15, 118, 110, 0.04)" stroke="#06b6d4" stroke-width="1.2" />
+                
+                <!-- Meridian Line -->
+                <path d="M 100 20 A 80 80 0 0 0 100 100" fill="none" stroke="#273549" stroke-width="1" stroke-dasharray="2,2"/>
+                
+                <!-- Cardinal directions -->
+                <text x="96" y="113" fill="#06b6d4" font-size="7" font-weight="bold">N (เหนือ)</text>
+                <text x="184" y="102" fill="#475569" font-size="7" font-weight="bold">E (ออก)</text>
+                <text x="2" y="102" fill="#475569" font-size="7" font-weight="bold">W (ตก)</text>
+                <text x="97" y="14" fill="#cbd5e1" font-size="6">Zenith</text>
+
+                <!-- SUN ELEMENTS -->
+                <line id="sun-ray" x1="100" y1="100" x2="100" y2="40" stroke="rgba(245, 158, 11, 0.2)" stroke-width="1.2"/>
+                <line id="sun-shadow" x1="100" y1="100" x2="100" y2="100" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1"/>
+                <circle id="sun-object" cx="100" cy="40" r="7" fill="url(#sun-glow)" filter="drop-shadow(0 0 8px #f59e0b)" style="transition: all 0.2s linear;"/>
+
+                <!-- MOON ELEMENTS -->
+                <line id="moon-ray" x1="100" y1="100" x2="100" y2="60" stroke="rgba(56, 189, 248, 0.2)" stroke-width="1.2"/>
+                <line id="moon-shadow" x1="100" y1="100" x2="100" y2="100" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1"/>
+                <circle id="moon-object" cx="100" cy="60" r="6" fill="url(#moon-glow-grad)" filter="drop-shadow(0 0 8px #38bdf8)" style="transition: all 0.2s linear;"/>
+
+                <defs>
+                    <!-- Sun Glow -->
+                    <radialGradient id="sun-glow" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#fffbeb"/>
+                        <stop offset="40%" stop-color="#f59e0b"/>
+                        <stop offset="100%" stop-color="#ef4444"/>
+                    </radialGradient>
+                    <!-- Moon Glow -->
+                    <radialGradient id="moon-glow-grad" cx="40%" cy="40%" r="50%">
+                        <stop offset="0%" stop-color="#ffffff"/>
+                        <stop offset="60%" stop-color="#cbd5e1"/>
+                        <stop offset="100%" stop-color="#64748b"/>
+                    </radialGradient>
+                </defs>
+            </svg>
+        </div>
+
+        <!-- Dual Metric Display Panel -->
+        <div class="data-grid-main">
+            <!-- Sun Data -->
+            <div class="astro-section">
+                <div class="astro-title sun-title">☀️ ดวงอาทิตย์ (Sun)</div>
+                <div class="data-grid-sub">
+                    <div class="data-card">
+                        <p>🧭 มุมทิศ</p>
+                        <h2 id="sun-azimuth" style="color: var(--primary);">--°</h2>
+                    </div>
+                    <div class="data-card">
+                        <p>📐 มุมเงย</p>
+                        <h2 id="sun-altitude" style="color: var(--primary);">--°</h2>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Moon Data -->
+            <div class="astro-section">
+                <div class="astro-title moon-title">🌙 ดวงจันทร์ (Moon)</div>
+                <div class="data-grid-sub">
+                    <div class="data-card">
+                        <p>🧭 มุมทิศ</p>
+                        <h2 id="moon-azimuth" style="color: var(--moon-glow);">--°</h2>
+                    </div>
+                    <div class="data-card">
+                        <p>📐 มุมเงย</p>
+                        <h2 id="moon-altitude" style="color: var(--moon-glow);">--°</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let mode = 'realtime'; 
+    let timerInterval;
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+            document.getElementById('inp-lat').value = position.coords.latitude.toFixed(4);
+            document.getElementById('inp-lng').value = position.coords.longitude.toFixed(4);
+            updateAstroPositions();
+        });
+    }
+
+    function setMode(selectedMode) {
+        mode = selectedMode;
+        document.getElementById('btn-rt').classList.toggle('active', mode === 'realtime');
+        document.getElementById('btn-man').classList.toggle('active', mode === 'manual');
+        
+        document.getElementById('inp-date').disabled = (mode === 'realtime');
+        document.getElementById('inp-time').disabled = (mode === 'realtime');
+
+        if (mode === 'realtime') {
+            startRealTimeLoop();
+        } else {
+            clearInterval(timerInterval);
+            const now = new Date();
+            document.getElementById('inp-date').value = now.toISOString().split('T')[0];
+            document.getElementById('inp-time').value = now.toTimeString().split(' ')[0];
+            updateAstroPositions();
+        }
+    }
+
+    function startRealTimeLoop() {
+        clearInterval(timerInterval);
+        updateAstroPositions();
+        timerInterval = setInterval(updateAstroPositions, 1000); 
+    }
+
+    function triggerManualCalculation() {
+        if (mode === 'manual') {
+            updateAstroPositions();
+        }
+    }
+
+    function updateAstroPositions() {
+        let datetime = new Date();
+
+        if (mode === 'manual') {
+            const dVal = document.getElementById('inp-date').value;
+            const tVal = document.getElementById('inp-time').value;
+            if (dVal && tVal) {
+                datetime = new Date(dVal + 'T' + tVal);
+            }
+        } else {
+            document.getElementById('clock').innerText = datetime.toTimeString().split(' ')[0];
+        }
+
+        const lat = parseFloat(document.getElementById('inp-lat').value) || 0;
+        const lng = parseFloat(document.getElementById('inp-lng').value) || 0;
+
+        const toRad = Math.PI / 180;
+        const toDeg = 180 / Math.PI;
+
+        // ปีและวันลำดับที่นับจากต้นปี
+        const year = datetime.getFullYear();
+        const start = new Date(year, 0, 0);
+        const diff = datetime - start;
+        const oneDay = 1000 * 60 * 60 * 24;
+        const dayOfYear = Math.floor(diff / oneDay);
+
+        // คำนวณเวลาสากลเชิงทศนิยม (Julian Epoch relative baseline)
+        const currentHours = datetime.getHours() + datetime.getMinutes() / 60 + datetime.getSeconds() / 3600;
+        
+        // ==========================================
+        // 1. อัลกอริทึมตำแหน่งดวงอาทิตย์ (SUN ENGINE)
+        // ==========================================
+        const sunDeclination = 23.45 * Math.sin(toRad * (360 / 365 * (dayOfYear - 80)));
+        const bValue = (360 / 365) * (dayOfYear - 81) * toRad;
+        const equationOfTime = 9.87 * Math.sin(2 * bValue) - 7.53 * Math.cos(bValue) - 1.5 * Math.sin(bValue);
+        const sunSolarNoon = 12 + (105 - lng) / 15 - (equationOfTime / 60);
+        const sunHourAngle = (currentHours - sunSolarNoon) * 15;
+
+        const latRad = lat * toRad;
+        const sunDecRad = sunDeclination * toRad;
+        const sunHaRad = sunHourAngle * toRad;
+
+        const sinSunAlt = Math.sin(latRad) * Math.sin(sunDecRad) + Math.cos(latRad) * Math.cos(sunDecRad) * Math.cos(sunHaRad);
+        const sunAltitude = Math.asin(sinSunAlt) * toDeg;
+
+        const cosSunAz = (Math.sin(sunDecRad) - Math.sin(sinSunAlt) * Math.sin(latRad)) / (Math.cos(Math.asin(sinSunAlt)) * Math.cos(latRad));
+        let sunAzimuth = Math.acos(Math.max(-1, Math.min(1, cosSunAz))) * toDeg;
+        if (Math.sin(sunHaRad) > 0) sunAzimuth = 360 - sunAzimuth;
+        sunAzimuth = (sunAzimuth + 180) % 360; 
+
+        // ==========================================
+        // 2. อัลกอริทึมตำแหน่งดวงจันทร์ (MOON ENGINE)
+        // ==========================================
+        // หาวันเวลานับจากศตวรรษที่ 20 (J2000.0 Reference) เพื่อหาความก้าวหน้าดวงจันทร์
+        const utcDate = Date.UTC(datetime.getFullYear(), datetime.getMonth(), datetime.getDate(), datetime.getHours(), datetime.getMinutes(), datetime.getSeconds());
+        const d = (utcDate / oneDay) - 10957.5; // วันนับจาก J2000
+
+        // ลองจิจูดเฉลี่ยของดวงจันทร์ (Moon's Mean Longitude - L)
+        const L = (218.316 + 13.176396 * d) % 360;
+        // ความผิดปกติเฉลี่ยของดวงจันทร์ (Moon's Mean Anomaly - M)
+        const Mm = (134.963 + 13.064993 * d) % 360;
+        // การยืดตัวเฉลี่ยของดวงจันทร์ (Moon's Mean Elongation - F)
+        const F = (93.272 + 13.229350 * d) % 360;
+
+        // คำนวณพิกัดสุริยวิถีของดวงจันทร์ระดับพื้นฐาน (Ecliptic Longitude/Latitude)
+        const moonEclipticLng = L + 6.289 * Math.sin(Mm * toRad);
+        const moonEclipticLat = 5.128 * Math.sin(F * toRad);
+
+        // แปลงความเอียงแกนโลกสุริยวิถี (Obliquity of Ecliptic)
+        const obqRad = 23.439 * toRad;
+        
+        // แปลงพิกัดสูตรศูนย์สูตรท้องฟ้า (Right Ascension & Declination)
+        const sinMoonDec = Math.sin(moonEclipticLat * toRad) * Math.cos(obqRad) + Math.cos(moonEclipticLat * toRad) * Math.sin(obqRad) * Math.sin(moonEclipticLng * toRad);
+        const moonDeclination = Math.asin(sinMoonDec);
+
+        const yRA = Math.sin(moonEclipticLng * toRad) * Math.cos(obqRad) - Math.tan(moonEclipticLat * toRad) * Math.sin(obqRad);
+        const xRA = Math.cos(moonEclipticLng * toRad);
+        const moonRA = Math.atan2(yRA, xRA) * toDeg;
+
+        // เวลาดาราคติกรีนิช (Greenwich Sidereal Time) + ปรับแก้ไขเวลาท้องถิ่น
+        const gst = (100.46 + 0.985647 * d + (datetime.getUTCHours() + datetime.getUTCMinutes()/60)*15) % 360;
+        const localSiderealTime = gst + lng;
+        
+        // มุมชั่วโมงของดวงจันทร์ (Moon Hour Angle)
+        const moonHourAngle = (localSiderealTime - moonRA) * toRad;
+
+        // คำนวณพิกัดขอบฟ้า (Horizontal Coordinate for Moon)
+        const sinMoonAlt = Math.sin(latRad) * Math.sin(moonDeclination) + Math.cos(latRad) * Math.cos(moonDeclination) * Math.cos(moonHourAngle);
+        const moonAltitude = Math.asin(sinMoonAlt) * toDeg;
+
+        const cosMoonAz = (Math.sin(moonDeclination) - Math.sin(sinMoonAlt) * Math.sin(latRad)) / (Math.cos(Math.asin(sinMoonAlt)) * Math.cos(latRad));
+        let moonAzimuth = Math.acos(Math.max(-1, Math.min(1, cosMoonAz))) * toDeg;
+        if (Math.sin(moonHourAngle) > 0) moonAzimuth = 360 - moonAzimuth;
+        moonAzimuth = (moonAzimuth + 180) % 360;
+
+        // ==========================================
+        // 3. แสดงผลข้อมูลและปรับปรุงกราฟิกขับเคลื่อนแอนิเมชัน
+        // ==========================================
+        
+        // อัปเดตตัวเลขในการ์ด
+        document.getElementById('sun-azimuth').innerText = sunAzimuth.toFixed(2) + "°";
+        document.getElementById('sun-altitude').innerText = sunAltitude.toFixed(2) + "°";
+        document.getElementById('moon-azimuth').innerText = moonAzimuth.toFixed(2) + "°";
+        document.getElementById('moon-altitude').innerText = moonAltitude.toFixed(2) + "°";
+
+        // ควบคุมโปรเจกต์ชันกราฟิกดวงอาทิตย์
+        updateAstroGraphic('sun-object', 'sun-ray', 'sun-shadow', 'url(#sun-glow)', '#f59e0b', sunAzimuth, sunAltitude);
+        
+        // ควบคุมโปรเจกต์ชันกราฟิกดวงจันทร์
+        updateAstroGraphic('moon-object', 'moon-ray', 'moon-shadow', 'url(#moon-glow-grad)', '#38bdf8', moonAzimuth, moonAltitude);
+    }
+
+    // ฟังก์ชันคำนวณตำแหน่งพิกัดภาพแบน 2D และคุมเปิด-ปิด แสงของวัตถุท้องฟ้า
+    function updateAstroGraphic(objId, rayId, shadowId, fillGlow, neonColor, azimuth, altitude) {
+        const obj = document.getElementById(objId);
+        const ray = document.getElementById(rayId);
+        const shadow = document.getElementById(shadowId);
+        const toRad = Math.PI / 180;
+
+        if (altitude < 0) {
+            // ตลับขอบฟ้า ปรับสีให้มืดลงและซ่อนรังสีฉาย
+            obj.setAttribute('fill', '#1e293b');
+            obj.setAttribute('filter', 'none');
+            ray.setAttribute('stroke', 'transparent');
+            shadow.setAttribute('stroke', 'transparent');
+        } else {
+            // ปรากฏบนท้องฟ้า เปิดสีกราเดียนต์ตามชนิดวัตถุ
+            obj.setAttribute('fill', fillGlow);
+            obj.setAttribute('filter', `drop-shadow(0 0 8px ${neonColor})`);
+            ray.setAttribute('stroke', `rgba(${objId==='sun-object' ? '245,158,11':'56,189,248'}, 0.2)`);
+            shadow.setAttribute('stroke', 'rgba(255, 255, 255, 0.08)');
+        }
+
+        // สูตรการฉายพิกัด 3D สู่ Isometric Perspective 2D (ขึ้นทิศตะวันออก-ฝั่งขวา / ตกทิศตะวันตก-ฝั่งซ้าย)
+        const viewAzimuthRad = (90 - azimuth) * toRad;
+        const viewAltitudeRad = altitude * toRad;
+
+        const radius = 80 * Math.cos(viewAltitudeRad);
+        const posX = 100 + radius * Math.cos(viewAzimuthRad);
+        const posY = 100 - (80 * Math.sin(viewAltitudeRad)) + (radius * 0.25 * Math.sin(viewAzimuthRad));
+
+        obj.setAttribute('cx', posX);
+        obj.setAttribute('cy', posY);
+        
+        ray.setAttribute('x2', posX);
+        ray.setAttribute('y2', posY);
+        
+        shadow.setAttribute('x2', posX);
+        shadow.setAttribute('y2', 100 + (radius * 0.25 * Math.sin(viewAzimuthRad)));
+    }
+
+    startRealTimeLoop();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celestial Coordinate Converter</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #ec4899;
+            --bg-dark: #0b0f19;
+            --card-bg: rgba(22, 28, 45, 0.75);
+            --text-light: #f8fafc;
+            --accent-green: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #09090b 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 35px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 35px;
+        }
+
+        @media (max-width: 850px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .input-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #818cf8, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+        }
+
+        .tabs {
+            display: flex;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 5px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        label {
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            font-weight: 500;
+        }
+
+        input {
+            padding: 12px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-calc {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-calc:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(99, 102, 241, 0.35);
+        }
+
+        /* Graphic Panel */
+        .graphic-section {
+            background: rgba(10, 15, 30, 0.5);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sphere-container {
+            width: 100%;
+            max-width: 320px;
+            height: 320px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .results-box {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 14px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .results-header {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .res-card {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .res-card p {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 4px;
+        }
+
+        .res-card h3 {
+            font-size: 1.3rem;
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        /* SVG styles */
+        svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .star-point {
+            transition: all 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="input-section">
+        <h1>Celestial Coordinator</h1>
+        <p class="subtitle">แปลงพิกัดทรงกลมท้องฟ้ากลับไป-กลับมาอย่างแม่นยำ</p>
+
+        <div class="tabs">
+            <button class="tab active" id="tab-eq2hz" onclick="switchMode('eq2hz')">Equatorial → Horizontal</button>
+            <button class="tab" id="tab-hz2eq" onclick="switchMode('hz2eq')">Horizontal → Equatorial</button>
+        </div>
+
+        <!-- Shared Inputs -->
+        <div class="form-grid">
+            <div class="form-group full-width">
+                <label for="latitude">ละติจูดผู้สังเกต (Latitude: φ) °</label>
+                <input type="number" id="latitude" step="any" value="13.75" oninput="updateCalculation()">
+            </div>
+
+            <!-- Inputs fields will change labels dynamically -->
+            <div class="form-group mode-eq2hz">
+                <label id="lbl-in1" for="input1">มุมชั่วโมง (Hour Angle: HA) °</label>
+                <input type="number" id="input1" step="any" value="45" oninput="updateCalculation()">
+            </div>
+            <div class="form-group mode-eq2hz">
+                <label id="lbl-in2" for="input2">เดคลิเนชัน (Declination: δ) °</label>
+                <input type="number" id="input2" step="any" value="23.5" oninput="updateCalculation()">
+            </div>
+        </div>
+
+        <button class="btn-calc" onclick="updateCalculation()">คำนวณและอัปเดตกราฟิก</button>
+    </div>
+
+    <div class="graphic-section">
+        <div class="sphere-container">
+            <svg viewBox="0 0 200 200">
+                <!-- Outer Celestial Sphere Background -->
+                <circle cx="100" cy="100" r="80" fill="none" stroke="#334155" stroke-width="1.5" />
+                
+                <!-- Horizon Plane (Ellipse) -->
+                <ellipse cx="100" cy="100" rx="80" ry="25" fill="rgba(99, 102, 241, 0.05)" stroke="#6366f1" stroke-width="1.5" />
+                
+                <!-- Celestial Equator Plane (Dashed Ellipse) -->
+                <ellipse cx="100" cy="105" rx="80" ry="20" fill="none" stroke="#ec4899" stroke-width="1.2" stroke-dasharray="3,3" transform="rotate(-15 100 100)" />
+                
+                <!-- Meridian Line -->
+                <path d="M 100 20 A 80 80 0 0 0 100 180" fill="none" stroke="#475569" stroke-width="1" />
+                
+                <!-- Zenith (Z) -->
+                <circle cx="100" cy="20" r="2.5" fill="#f8fafc" />
+                <text x="96" y="14" fill="#f8fafc" font-size="8" font-weight="bold">Z</text>
+                
+                <!-- Cardinal Points -->
+                <text x="12" y="103" fill="#6366f1" font-size="8" font-weight="bold">W</text>
+                <text x="182" y="103" fill="#6366f1" font-size="8" font-weight="bold">E</text>
+
+                <!-- Dynamic Star/Object Point -->
+                <line id="star-line-z" x1="100" y1="100" x2="140" y2="70" stroke="rgba(255,255,255,0.2)" stroke-dasharray="2,2" />
+                <circle id="star-point" class="star-point" cx="140" cy="70" r="5" fill="#10b981" filter="drop-shadow(0 0 6px #10b981)" />
+                <text id="star-label" x="148" y="73" fill="#10b981" font-size="8" font-weight="bold">Star</text>
+            </svg>
+        </div>
+
+        <div class="results-box">
+            <div class="results-header" id="res-title">ผลลัพธ์พิกัดขอบฟ้า (Horizontal)</div>
+            <div class="results-grid">
+                <div class="res-card">
+                    <p id="res-lbl1">มุมทิศ (Azimuth: Alt)</p>
+                    <h3 id="res-val1">--°</h3>
+                </div>
+                <div class="res-card">
+                    <p id="res-lbl2">มุมเงย (Altitude: Az)</p>
+                    <h3 id="res-val2">--°</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentMode = 'eq2hz';
+
+    function switchMode(mode) {
+        currentMode = mode;
+        
+        const tabEq = document.getElementById('tab-eq2hz');
+        const tabHz = document.getElementById('tab-hz2eq');
+        const lblIn1 = document.getElementById('lbl-in1');
+        const lblIn2 = document.getElementById('lbl-in2');
+        const resTitle = document.getElementById('res-title');
+        const resLbl1 = document.getElementById('res-lbl1');
+        const resLbl2 = document.getElementById('res-lbl2');
+
+        if (mode === 'eq2hz') {
+            tabEq.classList.add('active');
+            tabHz.classList.remove('active');
+            lblIn1.innerText = "มุมชั่วโมง (Hour Angle: HA) °";
+            lblIn2.innerText = "เดคลิเนชัน (Declination: δ) °";
+            resTitle.innerText = "ผลลัพธ์พิกัดขอบฟ้า (Horizontal)";
+            resLbl1.innerText = "มุมทิศ (Azimuth)";
+            resLbl2.innerText = "มุมเงย (Altitude)";
+            
+            document.getElementById('input1').value = 45;
+            document.getElementById('input2').value = 23.5;
+        } else {
+            tabHz.classList.add('active');
+            tabEq.classList.remove('active');
+            lblIn1.innerText = "มุมทิศ (Azimuth: Az) °";
+            lblIn2.innerText = "มุมเงย (Altitude: Alt) °";
+            resTitle.innerText = "ผลลัพธ์พิกัดเส้นศูนย์สูตร (Equatorial)";
+            resLbl1.innerText = "มุมชั่วโมง (Hour Angle)";
+            resLbl2.innerText = "เดคลิเนชัน (Declination)";
+            
+            document.getElementById('input1').value = 120;
+            document.getElementById('input2').value = 35;
+        }
+        updateCalculation();
+    }
+
+    function updateCalculation() {
+        const lat = parseFloat(document.getElementById('latitude').value) || 0;
+        const in1 = parseFloat(document.getElementById('input1').value) || 0;
+        const in2 = parseFloat(document.getElementById('input2').value) || 0;
+
+        const toRad = Math.PI / 180;
+        const toDeg = 180 / Math.PI;
+        const latRad = lat * toRad;
+
+        let out1 = 0;
+        let out2 = 0;
+
+        if (currentMode === 'eq2hz') {
+            // 1. จาก Equatorial ไปเป็น Horizontal
+            const haRad = in1 * toRad;
+            const decRad = in2 * toRad;
+
+            // สูตรหา มุมเงย (Altitude: h)
+            const sinAlt = Math.sin(decRad) * Math.sin(latRad) + Math.cos(decRad) * Math.cos(latRad) * Math.cos(haRad);
+            const altRad = Math.asin(sinAlt);
+            out2 = altRad * toDeg;
+
+            // สูตรหา มุมทิศ (Azimuth: A)
+            const cosAz = (Math.sin(decRad) - Math.sin(altRad) * Math.sin(latRad)) / (Math.cos(altRad) * Math.cos(latRad));
+            let az = Math.acos(Math.max(-1, Math.min(1, cosAz))) * toDeg;
+            
+            if (Math.sin(haRad) > 0) { az = 360 - az; }
+            out1 = az;
+        } else {
+            // 2. จาก Horizontal ไปเป็น Equatorial
+            const azRad = in1 * toRad;
+            const altRad = in2 * toRad;
+
+            // สูตรหา เดคลิเนชัน (Declination: δ)
+            const sinDec = Math.sin(altRad) * Math.sin(latRad) + Math.cos(altRad) * Math.cos(latRad) * Math.cos(azRad);
+            const decRad = Math.asin(sinDec);
+            out2 = decRad * toDeg;
+
+            // สูตรหา มุมชั่วโมง (Hour Angle: HA)
+            const cosHA = (Math.sin(altRad) - Math.sin(decRad) * Math.sin(latRad)) / (Math.cos(decRad) * Math.cos(latRad));
+            let ha = Math.acos(Math.max(-1, Math.min(1, cosHA))) * toDeg;
+
+            if (Math.sin(azRad) > 0) { ha = 360 - ha; }
+            out1 = ha;
+        }
+
+        // แสดงผลลัพธ์ในหน้าจอ
+        document.getElementById('res-val1').innerText = out1.toFixed(2) + "°";
+        document.getElementById('res-val2').innerText = out2.toFixed(2) + "°";
+
+        // อัปเดตกราฟิกทรงกลมท้องฟ้า (SVG Integration)
+        const star = document.getElementById('star-point');
+        const starLine = document.getElementById('star-line-z');
+        const starLabel = document.getElementById('star-label');
+
+        let visualAngle = (currentMode === 'eq2hz' ? out1 : in1) * toRad;
+        let visualAlt = (currentMode === 'eq2hz' ? out2 : in2);
+        
+        let radius = 80 * Math.cos(visualAlt * toRad * 0.5); 
+        let cx = 100 + radius * Math.sin(visualAngle);
+        let cy = 100 - (visualAlt * 0.7) - 10 * Math.cos(visualAngle);
+
+        cx = Math.max(30, Math.min(170, cx));
+        cy = Math.max(30, Math.min(150, cy));
+
+        star.setAttribute('cx', cx);
+        star.setAttribute('cy', cy);
+        starLine.setAttribute('x2', cx);
+        starLine.setAttribute('y2', cy);
+        starLabel.setAttribute('x', cx + 8);
+        starLabel.setAttribute('y', cy + 3);
+    }
+
+    window.onload = updateCalculation;
+</script>
+</body>
+</html>
