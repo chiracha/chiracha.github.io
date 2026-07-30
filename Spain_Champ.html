@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght=0,300;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"/>
     
     <style>
         /* --- CSS STYLING --- */
@@ -109,6 +110,13 @@
             animation: fadeInUp 1.5s ease-out;
         }
 
+        .fi {
+            font-size: 10rem;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+        }
+        
         .trophy-wrapper {
             position: relative;
             width: clamp(120px, 25vw, 180px);
@@ -200,7 +208,8 @@
         <h1 class="main-title">FIFA World Cup 2026<br>Champions</h1>
 
         <div class="champion-card">
-            <div class="trophy-wrapper">
+             <span class="fi fi-es"></span>
+            <!-- <div class="trophy-wrapper">
                 <svg class="trophy-icon" viewBox="0 0 24 24">
                     <defs>
                         <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -212,7 +221,7 @@
                     </defs>
                     <path d="M18 2H6v2c0 2.21 1.79 4 4 4h4c2.21 0 4-1.79 4-4V2z M4 5c0 1.66 1.34 3 3 3h1V4H7c-1.66 0-3 1.34-3 3zm13 3h1c1.66 0 3-1.34 3-3s-1.34-3-3-3h-1v4z M12 10c-3.31 0-6 2.69-6 6v1h12v-1c0-3.31-2.69-6-6-6zm-4 9h8v2H8z"/>
                 </svg>
-            </div>
+            </div> -->
 
             <h2 class="team-name" id="champion-team">SPAIN</h2> 
             
